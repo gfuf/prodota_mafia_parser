@@ -5,70 +5,100 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import prodota.data.Section;
+import prodota.data.Topic;
+import prodota.data.content.SectionContent;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import static prodota.parser.ParserUtils.*;
 
 public class Parser {
-    private  final static String OL_IPS_DATA_LIST = "ol.ipsDataList";
-
-    private  final static String OL_TOPIC_LIST = "ol.cTopicList";
-
-    private final static String C_FORUM_ROW_CLASS = ".cForumRow";
-
-    private final static String IPS_DATA_ITEM_CLASS = ".ipsDataItem";
-
-    private final static String IPS_DATA_ITEM_TITLE_CLASS = ".ipsDataItem_title";
-
-    private final static String SPAN_IPS_CONTAINED = "span.ipsContained";
-
-    private final static String A = "a";
 
 
-    public Collection<Section> parse(String body)
+    public SectionContent parse(String body)
     {
         Document doc = Jsoup.parse(body);
 
         return parse(doc);
     }
 
-    public Collection<Section> parse(Document doc)
+    public Collection<Section> parseSection(String body)
+    {
+        Document doc = Jsoup.parse(body);
+
+        return parseSection(doc);
+    }
+
+    public Collection<Topic> parseTopics(String body)
+    {
+        Document doc = Jsoup.parse(body);
+
+        return parseTopics(doc);
+    }
+
+    private SectionContent parse(Document doc)
     {
         //кучу selection меняем на >
         Elements ipsData = doc.select(OL_IPS_DATA_LIST);
 
-        Elements sections = ipsData.select(C_FORUM_ROW_CLASS)
-                .select(IPS_DATA_ITEM_CLASS)
-                .select(IPS_DATA_ITEM_TITLE_CLASS)
-                .select(A);
+
+
         //sections.stream().map()
         System.out.println("Sections ");
-        for(Element section : sections)
-        {
-            String name = section.text();
-            String href = section.attr("href");
-            System.out.println("name = " + name + " href = " + href);
-        }
+        Collection<Section> sections = parseSection(doc);
+        sections.forEach(s -> System.out.println("name = " + s.getName() + " href = " + s.getUri()));
+
 
         System.out.println("Topics ");
-        Elements topics = ipsData
-                .select(OL_TOPIC_LIST)
-                .select(IPS_DATA_ITEM_CLASS)
-                .select(IPS_DATA_ITEM_TITLE_CLASS)
-                .select(SPAN_IPS_CONTAINED)
-                .select(SPAN_IPS_CONTAINED + ">" +A);
+        Collection<Topic> topics = parseTopics(doc);
+        topics.forEach(t -> System.out.println("name = " + t.getName() + " href = " + t.getUri()));
 
-        for(Element topic : topics)
+
+
+        return SectionContent.of(sections, topics);
+    }
+
+
+    private Collection<Section> parseSection(Document doc)
+    {
+
+        List<Section> sectionList = new ArrayList<>();
+        Elements eSections = doc.select(PATH_TO_SECTION_LI);
+        for(Element eSection : eSections)
         {
-            //есть возможность брать страницы
+            Element sectionA = eSection.selectFirst(PATH_TO_SECTION_A);
+            String name = sectionA.text();
+            String href = sectionA.attr(HREF);
+            URI uri = URI.create(href);
 
-            String name = topic.text();
-            String href = topic.attr("href");
-            System.out.println("name = " + name + " href = " + href);
+            Section section = new Section(name, uri);
+            sectionList.add(section);
         }
 
+        return sectionList;
+    }
 
 
-        return null;
+    private Collection<Topic> parseTopics(Document doc)
+    {
+
+        List<Topic> topicList = new ArrayList<>();
+        Elements eTopics = doc.select(PATH_TO_TOPIC_LI);
+        for(Element eTopic : eTopics)
+        {
+            Element sectionA = eTopic.selectFirst(PATH_TO_TOPIC_A);
+            String name = sectionA.text();
+            String href = sectionA.attr(HREF);
+            URI uri = URI.create(href);
+
+            Topic topic = new Topic(name, uri);
+            topicList.add(topic);
+        }
+
+        return topicList;
     }
 
 
