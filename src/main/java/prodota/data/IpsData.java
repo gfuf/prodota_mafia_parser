@@ -5,7 +5,8 @@ import java.net.URI;
 /*
     Интерфейс маркер, для топика  и раздела
  */
-public interface IpsData {
+public interface IpsData
+{
     String getName();
 
     URI getUri();

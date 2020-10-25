@@ -4,28 +4,33 @@ import org.apache.commons.collections4.CollectionUtils;
 import prodota.data.Section;
 import prodota.data.Topic;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-public record SectionContent (Collection<Section> sections, Collection<Topic> topics)
+public record SectionContent(Collection<Section> sections, Collection<Topic> topics, Optional<URI> next)
 {
-    public static SectionContent of(Collection<Section> sections, Collection<Topic> topics)
+    public static SectionContent of(Collection<Section> sections, Collection<Topic> topics, Optional<String> next)
     {
-        return new SectionContent(sections, topics);
+        return new SectionContent(sections, topics, next.map(URI::create));
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SectionContent content = (SectionContent) o;
         return CollectionUtils.isEqualCollection(sections, content.sections) &&
-                CollectionUtils.isEqualCollection(topics, content.topics);
+                CollectionUtils.isEqualCollection(topics, content.topics) &&
+                Objects.equals(next, content.next);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return 0;
     }
 }

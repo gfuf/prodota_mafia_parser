@@ -12,17 +12,20 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ParserTest {
+public class ParserTest
+{
 
     private Parser parser = new Parser();
 
     @Test
-    public void testByMainPage() throws IOException {
+    public void testByMainPage() throws IOException
+    {
 
         Set<Section> testSections = Set.of(new Section("Dota 2 Inside", URI.create("https://prodota.ru/forum/63/")),
                 new Section("TI and Majors", URI.create("https://prodota.ru/forum/127/")),
@@ -35,15 +38,16 @@ public class ParserTest {
                 new Section("Мастерская", URI.create("https://prodota.ru/forum/15/")),
                 new Section("Архив", URI.create("https://prodota.ru/forum/95/")));
 
-        SectionContent testContent = SectionContent.of(testSections, Set.of());
-        String pageStr = Files.readString(Paths.get("src","test","resources","prodota_forum_main.html"));
+        SectionContent testContent = SectionContent.of(testSections, Set.of(), Optional.empty());
+        String pageStr = Files.readString(Paths.get("src", "test", "resources", "prodota_forum_main.html"));
         SectionContent content = parser.parse(pageStr);
 
         assertEquals(content, testContent);
     }
 
     @Test
-    public void testByMafiaPage() throws IOException {
+    public void testByMafiaPage() throws IOException
+    {
 
         Set<Section> testSections = Set.of(new Section("Архив", URI.create("https://prodota.ru/forum/71/")));
         Set<Topic> testTopics = Set.of(new Topic("Регистрация№445", URI.create("https://prodota.ru/forum/topic/219579/?do=getNewComment")),
@@ -54,8 +58,8 @@ public class ParserTest {
                 new Topic("Мафия 443: Туссент, Эрвелюс, Кровосиси", URI.create("https://prodota.ru/forum/topic/219239/?do=getNewComment")),
                 new Topic("Мафия 442: Вас посетила Эрафия Police, впредь больше без матвинов фуллконфой", URI.create("https://prodota.ru/forum/topic/219101/?do=getNewComment")));
 
-        SectionContent testContent = SectionContent.of(testSections, testTopics);
-        String pageStr = Files.readString(Paths.get("src","test","resources","prodota_forum_mafia.html"));
+        SectionContent testContent = SectionContent.of(testSections, testTopics, Optional.of("https://prodota.ru/forum/45/page/2/"));
+        String pageStr = Files.readString(Paths.get("src", "test", "resources", "prodota_forum_mafia.html"));
         SectionContent content = parser.parse(pageStr);
 
         assertEquals(content, testContent);

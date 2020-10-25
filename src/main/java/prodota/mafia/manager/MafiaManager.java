@@ -1,8 +1,8 @@
 package prodota.mafia.manager;
 
-import prodota.data.Section;
+import prodota.data.Topic;
 
 public interface MafiaManager
 {
-    Section findLastGameTopic();
+    Topic searchLastGameTopic();
 }

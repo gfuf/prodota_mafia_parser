@@ -12,10 +12,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static prodota.parser.ParserUtils.*;
 
-public class Parser {
+public class Parser
+{
 
 
     public SectionContent parse(String body)
@@ -44,21 +46,17 @@ public class Parser {
         //кучу selection меняем на >
         Elements ipsData = doc.select(OL_IPS_DATA_LIST);
 
-
-
-        //sections.stream().map()
-        System.out.println("Sections ");
+        String paginationNext = parsePaginationNext(doc);
         Collection<Section> sections = parseSection(doc);
-        sections.forEach(s -> System.out.println("name = " + s.getName() + " href = " + s.getUri()));
-
-
-        System.out.println("Topics ");
         Collection<Topic> topics = parseTopics(doc);
-        topics.forEach(t -> System.out.println("name = " + t.getName() + " href = " + t.getUri()));
 
+        return SectionContent.of(sections, topics, Optional.ofNullable(paginationNext));
+    }
 
-
-        return SectionContent.of(sections, topics);
+    private String parsePaginationNext(Document doc)
+    {
+        Element paginationNextA = doc.selectFirst(PATH_TO_PAGINATION_NEXT_A);
+        return paginationNextA != null ? paginationNextA.attr(HREF) : null;
     }
 
 
@@ -67,7 +65,7 @@ public class Parser {
 
         List<Section> sectionList = new ArrayList<>();
         Elements eSections = doc.select(PATH_TO_SECTION_LI);
-        for(Element eSection : eSections)
+        for (Element eSection : eSections)
         {
             Element sectionA = eSection.selectFirst(PATH_TO_SECTION_A);
             String name = sectionA.text();
@@ -87,7 +85,7 @@ public class Parser {
 
         List<Topic> topicList = new ArrayList<>();
         Elements eTopics = doc.select(PATH_TO_TOPIC_LI);
-        for(Element eTopic : eTopics)
+        for (Element eTopic : eTopics)
         {
             Element sectionA = eTopic.selectFirst(PATH_TO_TOPIC_A);
             String name = sectionA.text();
