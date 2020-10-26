@@ -1,4 +1,4 @@
-package prodota.mafia.util;
+package prodota.mafia.utils;
 
 import prodota.data.Topic;
 

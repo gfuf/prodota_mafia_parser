@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import prodota.data.Topic;
 import prodota.mafia.manager.MafiaManager;
 import prodota.mafia.manager.impl.MafiaSimpleManager;
-import prodota.mafia.util.IsGame;
+import prodota.mafia.utils.IsGame;
 import prodota.parser.Parser;
-import web.RestTeamplate;
+import web.response.ResponseDecorator;
+import web.rest.RestWrapper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,14 +27,14 @@ public class MafiaManagerTest
     @BeforeEach
     public void before() throws IOException
     {
-        RestTeamplate restTeamplate = mock(RestTeamplate.class);
+        RestWrapper restWrapper = mock(RestWrapper.class);
         String page = Files.readString(resourcePath("prodota_forum_mafia.html"));
-        when(restTeamplate.doGet(any(URI.class))).thenReturn(page);
+        when(restWrapper.doGet(any(URI.class))).thenReturn(new ResponseDecorator<>(page));
 
         IsGame isGame = new IsGame();
         Parser parser = new Parser();
 
-        mafiaManager = new MafiaSimpleManager(restTeamplate, parser, isGame);
+        mafiaManager = new MafiaSimpleManager(restWrapper, parser, isGame);
 
     }
 

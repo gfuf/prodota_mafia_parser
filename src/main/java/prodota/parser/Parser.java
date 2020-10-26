@@ -43,7 +43,6 @@ public class Parser
 
     private SectionContent parse(Document doc)
     {
-        //кучу selection меняем на >
         Elements ipsData = doc.select(OL_IPS_DATA_LIST);
 
         String paginationNext = parsePaginationNext(doc);
