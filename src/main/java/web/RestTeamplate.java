@@ -1,8 +1,13 @@
 package web;
 
-import java.net.http.HttpResponse;
+import java.net.URI;
 
 public interface RestTeamplate
 {
-    String doGet(String url);
+    String doGet(URI uri);
+
+    default String doGet(String url)
+    {
+       return doGet(URI.create(url));
+    }
 }

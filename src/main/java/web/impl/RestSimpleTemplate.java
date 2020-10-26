@@ -14,7 +14,7 @@ public class RestSimpleTemplate implements RestTeamplate
 {
 
     @Override
-    public String doGet(String url)
+    public String doGet(URI uri)
     {
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
@@ -23,7 +23,7 @@ public class RestSimpleTemplate implements RestTeamplate
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(url))
+                .uri(uri)
                 .setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36") // add request header
                 .build();
         HttpResponse<String> response = null;

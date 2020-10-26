@@ -2,7 +2,9 @@ package prodota.mafia.manager;
 
 import prodota.data.Topic;
 
+import java.util.Optional;
+
 public interface MafiaManager
 {
-    Topic searchLastGameTopic();
+    Optional<Topic>  searchLastGameTopic();
 }

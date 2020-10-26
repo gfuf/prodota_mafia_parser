@@ -1,22 +1,19 @@
 package parser;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import prodota.data.Section;
 import prodota.data.Topic;
 import prodota.data.content.SectionContent;
 import prodota.parser.Parser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.TestUtils.resourcePath;
 
 public class ParserTest
 {
@@ -39,7 +36,7 @@ public class ParserTest
                 new Section("Архив", URI.create("https://prodota.ru/forum/95/")));
 
         SectionContent testContent = SectionContent.of(testSections, Set.of(), Optional.empty());
-        String pageStr = Files.readString(Paths.get("src", "test", "resources", "prodota_forum_main.html"));
+        String pageStr = Files.readString(resourcePath("prodota_forum_main.html"));
         SectionContent content = parser.parse(pageStr);
 
         assertEquals(content, testContent);
@@ -59,7 +56,7 @@ public class ParserTest
                 new Topic("Мафия 442: Вас посетила Эрафия Police, впредь больше без матвинов фуллконфой", URI.create("https://prodota.ru/forum/topic/219101/?do=getNewComment")));
 
         SectionContent testContent = SectionContent.of(testSections, testTopics, Optional.of("https://prodota.ru/forum/45/page/2/"));
-        String pageStr = Files.readString(Paths.get("src", "test", "resources", "prodota_forum_mafia.html"));
+        String pageStr = Files.readString(resourcePath("prodota_forum_mafia.html"));
         SectionContent content = parser.parse(pageStr);
 
         assertEquals(content, testContent);
