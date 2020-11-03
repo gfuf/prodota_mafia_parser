@@ -29,8 +29,8 @@ public class GameSearchScheduller
         {
             if(!lastGameTopic.equals(oldLastGameTopic))
             {
-                System.out.println(lastGameTopic.get());
                 mafiaStorageService.writeLastGameTopic(lastGameTopic.get());
+                System.out.println(lastGameTopic.get());
             }
             else
             {

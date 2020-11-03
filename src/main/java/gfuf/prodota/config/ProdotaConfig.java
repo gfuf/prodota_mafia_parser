@@ -45,11 +45,4 @@ public class ProdotaConfig
     {
         return new MafiaSimpleStorageService(mafiaPostgresDAO);
     }
-
-    @Bean
-    public MafiaDAO mafiaPostgresDAO()
-    {
-        return new MafiaPostgresDAO();
-    }
-
 }

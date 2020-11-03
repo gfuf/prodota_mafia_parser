@@ -6,6 +6,7 @@ import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 
 import java.util.Optional;
 
+
 public class MafiaSimpleStorageService implements MafiaStorageService
 {
     private final MafiaDAO mafiaDAO;
