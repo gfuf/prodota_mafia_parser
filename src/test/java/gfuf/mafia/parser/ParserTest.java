@@ -1,4 +1,4 @@
-package gfuf.parser;
+package gfuf.mafia.parser;
 
 import org.junit.jupiter.api.Test;
 import gfuf.prodota.data.Section;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static gfuf.utils.TestUtils.resourcePath;
+import static utils.TestUtils.resourcePath;
 
 public class ParserTest
 {

@@ -1,4 +1,4 @@
-package gfuf.manager;
+package gfuf.mafia.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static gfuf.utils.TestUtils.resourcePath;
+import static utils.TestUtils.resourcePath;
 
 public class MafiaManagerTest
 {

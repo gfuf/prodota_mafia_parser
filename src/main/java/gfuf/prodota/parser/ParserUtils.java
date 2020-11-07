@@ -16,7 +16,7 @@ public class ParserUtils
 
     final static String UL_IPS_PAGINATION = "ul.ipsPagination";
 
-    final static String LI_PAGINATION_NEXT = "li.ipsPagination_next";
+    final static String LI_PAGINATION_NEXT = "li.ipsPagination_next:not(.ipsPagination_inactive)";
 
 
     final static String PATH_TO_SECTION_LI = OL_IPS_DATA_LIST + ">" + LI_C_FORUM_ROW;
