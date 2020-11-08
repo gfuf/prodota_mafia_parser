@@ -1,7 +1,6 @@
 package gfuf.prodota.config;
 
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
-import gfuf.prodota.mafia.storage.dao.impl.MafiaPostgresDAO;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.prodota.mafia.storage.service.impl.MafiaSimpleStorageService;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +9,7 @@ import gfuf.prodota.parser.Parser;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;
-import gfuf.prodota.task.GameSearchScheduller;
+import gfuf.prodota.mafia.task.GameSearchScheduller;
 import gfuf.web.rest.RestWrapper;
 
 @Configuration

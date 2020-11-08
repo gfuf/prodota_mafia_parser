@@ -17,15 +17,21 @@ public class MafiaSimpleStorageService implements MafiaStorageService
     }
 
     @Override
-    public Optional<Topic> findLastGameTopic()
+    public Optional<Topic> lastTopic()
     {
-        return mafiaDAO.findLastGameTopic();
+        return mafiaDAO.lastTopic();
     }
 
     @Override
-    public boolean writeLastGameTopic(Topic topic)
+    public Optional<Topic> topicByUrl(String url)
     {
-        return mafiaDAO.writeLastGameTopic(topic);
+        return mafiaDAO.topicByUrl(url);
+    }
+
+    @Override
+    public boolean writeTopic(Topic topic)
+    {
+        return mafiaDAO.writeTopic(topic);
     }
 
 

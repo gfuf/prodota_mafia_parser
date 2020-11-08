@@ -1,4 +1,4 @@
-package gfuf.prodota.task;
+package gfuf.prodota.mafia.task;
 
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
@@ -23,13 +23,15 @@ public class GameSearchScheduller
     public void search()
     {
         Optional<Topic> lastGameTopic = mafiaManager.searchLastGameTopic();
-        Optional<Topic> oldLastGameTopic = mafiaStorageService.findLastGameTopic();
+
 
         if(lastGameTopic.isPresent())
         {
-            if(!lastGameTopic.equals(oldLastGameTopic))
+            Optional<Topic> topicFromCache = mafiaStorageService.topicByUrl(lastGameTopic.get().getUri().toString());
+            //такого топика ещё не было
+            if(topicFromCache.isEmpty())
             {
-                mafiaStorageService.writeLastGameTopic(lastGameTopic.get());
+                mafiaStorageService.writeTopic(lastGameTopic.get());
                 System.out.println(lastGameTopic.get());
             }
             else

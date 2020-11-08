@@ -23,7 +23,7 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
     }
 
     @Override
-    public Optional<Topic> findLastGameTopic()
+    public Optional<Topic> lastTopic()
     {
         List<Topic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE id = (SELECT MAX(id) FROM topics)",
                 TOPIC_MAPPER);
@@ -32,7 +32,16 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
     }
 
     @Override
-    public boolean writeLastGameTopic(Topic topic)
+    public Optional<Topic> topicByUrl(String url)
+    {
+        List<Topic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE url = ?",
+                TOPIC_MAPPER, url);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(topic));
+    }
+
+    @Override
+    public boolean writeTopic(Topic topic)
     {
         int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url) VALUES (?, ?);",
                 topic.getName(),

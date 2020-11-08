@@ -6,7 +6,10 @@ import java.util.Optional;
 
 public interface MafiaDAO
 {
-    Optional<Topic> findLastGameTopic();
+    Optional<Topic> lastTopic();
 
-    boolean writeLastGameTopic(Topic topic);
+    Optional<Topic> topicByUrl(String url);
+
+    boolean writeTopic(Topic topic);
+
 }
