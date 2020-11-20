@@ -2,6 +2,7 @@ package gfuf.prodota.mafia.task;
 
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
+import gfuf.telegram.bot.AnouncerBot;
 import org.springframework.scheduling.annotation.Scheduled;
 import gfuf.prodota.mafia.manager.MafiaManager;
 
@@ -13,10 +14,16 @@ public class GameSearchScheduller
 
     private final MafiaStorageService mafiaStorageService;
 
-    public GameSearchScheduller(MafiaManager mafiaManager, MafiaStorageService mafiaStorageService)
+    private final AnouncerBot anouncerBot;
+
+    public GameSearchScheduller(MafiaManager mafiaManager,
+                                MafiaStorageService mafiaStorageService,
+                                AnouncerBot anouncerBot)
     {
         this.mafiaManager = mafiaManager;
         this.mafiaStorageService = mafiaStorageService;
+        this.anouncerBot = anouncerBot;
+
     }
 
     @Scheduled(fixedDelay = 5000)
@@ -31,8 +38,11 @@ public class GameSearchScheduller
             //такого топика ещё не было
             if(topicFromCache.isEmpty())
             {
-                mafiaStorageService.writeTopic(lastGameTopic.get());
-                System.out.println(lastGameTopic.get());
+                boolean success = anouncerBot.writeToAnouncerChat(lastGameTopic.get());
+                if(success)
+                {
+                    mafiaStorageService.writeTopic(lastGameTopic.get());
+                }
             }
             else
             {

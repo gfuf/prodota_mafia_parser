@@ -1,8 +1,10 @@
 package gfuf.prodota.config;
 
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
+import gfuf.prodota.mafia.storage.dao.impl.MafiaCacheSingleRecordDAO;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.prodota.mafia.storage.service.impl.MafiaSimpleStorageService;
+import gfuf.telegram.bot.AnouncerBot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import gfuf.prodota.parser.Parser;
@@ -34,14 +36,22 @@ public class ProdotaConfig
     }
 
     @Bean
-    public GameSearchScheduller gameSearchScheduller(MafiaManager mafiaManager, MafiaStorageService mafiaStorageService)
+    public GameSearchScheduller gameSearchScheduller(MafiaManager mafiaManager,
+                                                     MafiaStorageService mafiaStorageService,
+                                                     AnouncerBot anouncerBot)
     {
-        return new GameSearchScheduller(mafiaManager, mafiaStorageService);
+        return new GameSearchScheduller(mafiaManager, mafiaStorageService, anouncerBot);
     }
 
     @Bean
-    public MafiaStorageService mafiaService(MafiaDAO mafiaPostgresDAO)
+    public MafiaStorageService mafiaService(MafiaDAO mafiaCacheSingleRecordDAO)
     {
-        return new MafiaSimpleStorageService(mafiaPostgresDAO);
+        return new MafiaSimpleStorageService(mafiaCacheSingleRecordDAO);
+    }
+
+    @Bean
+    public MafiaCacheSingleRecordDAO mafiaCacheSingleRecordDAO(MafiaDAO mafiaPostgresDAO)
+    {
+        return new MafiaCacheSingleRecordDAO(mafiaPostgresDAO);
     }
 }
