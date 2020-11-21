@@ -1,12 +1,14 @@
 package gfuf.telegram.bot;
 
 import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.TopicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -32,16 +34,19 @@ public class AnouncerBot extends TelegramLongPollingBot
 
     }
 
-    public boolean writeToAnouncerChat(Topic topic)
+    public boolean sendToAnouncerChat(Topic topic)
     {
-        String message = topic.getName() + "\n" + topic.getUri();
-        SendMessage response = new SendMessage();
-        response.setChatId(anouncerChatId);
-        response.setText(message);
+        String message = buildUrlString(topic) + "\n"
+                + buildStatusString(topic.getStatus());
 
+        SendPhoto msg = new SendPhoto()
+            .setChatId(anouncerChatId)
+            .setPhoto("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3YIJXRJhNH3UHbuw25_HXdlQMx7olb1moCg&usqp=CAU")
+            .setCaption(message)
+            .setParseMode("HTML");
         boolean success;
         try {
-            execute(response);
+            execute(msg);
             success = true;
         } catch (TelegramApiException e) {
             logger.error("Failed to send message \"{}\" to {} due to error: {}", message, anouncerChatId, e.getMessage());
@@ -49,6 +54,24 @@ public class AnouncerBot extends TelegramLongPollingBot
         }
 
         return success;
+    }
+
+    private String buildUrlString(Topic topic)
+    {
+        return "<a href=\""+ topic.getUri() +"\">"+ topic.getName()+"</a>";
+    }
+    private String buildStatusString(TopicStatus status)
+    {
+        String result = null;
+        if(TopicStatus.OPEN.equals(status))
+        {
+            result = "Тема <b>открыта</b>";
+        }
+        else if(TopicStatus.CLOSED.equals(status))
+        {
+            result = "Тема <b>закрыта</b>";
+        }
+        return result;
     }
 
     @Override

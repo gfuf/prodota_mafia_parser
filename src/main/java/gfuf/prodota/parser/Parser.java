@@ -1,5 +1,6 @@
 package gfuf.prodota.parser;
 
+import gfuf.prodota.data.TopicStatus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -90,12 +91,20 @@ public class Parser
             String name = sectionA.text();
             String href = sectionA.attr(HREF);
             URI uri = URI.create(href);
+            Element sectionLock = eTopic.selectFirst(PATH_TO_FA_LOCK);
+            TopicStatus status = parseTopicStatus(sectionLock);
 
-            Topic topic = new Topic(name, uri);
+
+            Topic topic = new Topic(name, uri, status);
             topicList.add(topic);
         }
 
         return topicList;
+    }
+
+    private TopicStatus parseTopicStatus(Element element)
+    {
+        return element== null ? TopicStatus.OPEN : TopicStatus.CLOSED;
     }
 
 
