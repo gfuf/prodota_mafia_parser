@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import gfuf.prodota.data.Section;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.data.content.SectionContent;
-import gfuf.prodota.parser.Parser;
+import gfuf.prodota.parser.section.SectionParser;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,10 +15,10 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.TestUtils.resourcePath;
 
-public class ParserTest
+public class SectionParserTest
 {
 
-    private Parser parser = new Parser();
+    private SectionParser sectionParser = new SectionParser();
 
     @Test
     public void testByMainPage() throws IOException
@@ -37,7 +37,7 @@ public class ParserTest
 
         SectionContent testContent = SectionContent.of(testSections, Set.of(), Optional.empty());
         String pageStr = Files.readString(resourcePath("prodota_forum_main.html"));
-        SectionContent content = parser.parse(pageStr);
+        SectionContent content = sectionParser.parse(pageStr);
 
         assertEquals(content, testContent);
     }
@@ -57,7 +57,7 @@ public class ParserTest
 
         SectionContent testContent = SectionContent.of(testSections, testTopics, Optional.of("https://prodota.ru/forum/45/page/2/"));
         String pageStr = Files.readString(resourcePath("prodota_forum_mafia.html"));
-        SectionContent content = parser.parse(pageStr);
+        SectionContent content = sectionParser.parse(pageStr);
 
         assertEquals(content, testContent);
     }

@@ -1,12 +1,13 @@
 package gfuf.mafia.manager;
 
+import gfuf.prodota.parser.topic.TopicParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;
-import gfuf.prodota.parser.Parser;
+import gfuf.prodota.parser.section.SectionParser;
 import gfuf.web.response.ResponseDecorator;
 import gfuf.web.rest.RestWrapper;
 
@@ -32,9 +33,10 @@ public class MafiaManagerTest
         when(restWrapper.doGet(any(URI.class))).thenReturn(new ResponseDecorator<>(page));
 
         IsGame isGame = new IsGame();
-        Parser parser = new Parser();
+        SectionParser sectionParser = new SectionParser();
+        TopicParser topicParser = new TopicParser();
 
-        mafiaManager = new MafiaSimpleManager(restWrapper, parser, isGame);
+        mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
 
     }
 

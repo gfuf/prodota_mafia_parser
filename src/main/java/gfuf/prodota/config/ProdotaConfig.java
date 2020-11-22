@@ -1,13 +1,15 @@
 package gfuf.prodota.config;
 
+import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 import gfuf.prodota.mafia.storage.dao.impl.MafiaCacheSingleRecordDAO;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.prodota.mafia.storage.service.impl.MafiaSimpleStorageService;
+import gfuf.prodota.parser.topic.TopicParser;
 import gfuf.telegram.bot.AnouncerBot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import gfuf.prodota.parser.Parser;
+import gfuf.prodota.parser.section.SectionParser;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;
@@ -18,9 +20,15 @@ import gfuf.web.rest.RestWrapper;
 public class ProdotaConfig
 {
     @Bean
-    public Parser parser()
+    public SectionParser sectionParser()
     {
-        return new Parser();
+        return new SectionParser();
+    }
+
+    @Bean
+    public TopicParser topicParser()
+    {
+        return new TopicParser();
     }
 
     @Bean
@@ -30,9 +38,12 @@ public class ProdotaConfig
     }
 
     @Bean
-    public MafiaManager mafiaManager(RestWrapper restWrapper, Parser parser, IsGame isGame)
+    public MafiaManager mafiaManager(RestWrapper restWrapper,
+                                     SectionParser sectionParser,
+                                     TopicParser topicParser,
+                                     IsGame isGame)
     {
-        return new MafiaSimpleManager(restWrapper, parser, isGame);
+        return new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
     }
 
     @Bean

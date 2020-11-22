@@ -13,6 +13,7 @@ public class Topic implements IpsData
 
     private final TopicStatus status;
 
+
     public Topic(String name, URI uri)
     {
         this(name, uri, TopicStatus.CLOSED);

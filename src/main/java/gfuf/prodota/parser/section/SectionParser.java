@@ -1,4 +1,4 @@
-package gfuf.prodota.parser;
+package gfuf.prodota.parser.section;
 
 import gfuf.prodota.data.TopicStatus;
 import org.jsoup.Jsoup;
@@ -15,12 +15,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static gfuf.prodota.parser.ParserUtils.*;
+import static gfuf.prodota.parser.section.SectionParserUtils.*;
 
-public class Parser
+public class SectionParser
 {
-
-
     public SectionContent parse(String body)
     {
         Document doc = Jsoup.parse(body);

@@ -1,6 +1,6 @@
-package gfuf.prodota.parser;
+package gfuf.prodota.parser.section;
 
-public class ParserUtils
+public class SectionParserUtils
 {
     final static String OL_IPS_DATA_LIST = "ol.ipsDataList";
 
@@ -37,7 +37,7 @@ public class ParserUtils
 
     final static String PATH_TO_PAGINATION_NEXT_A = UL_IPS_PAGINATION + ">" + LI_PAGINATION_NEXT + ">" + A;
 
-    private ParserUtils()
+    private SectionParserUtils()
     {
     }
 }

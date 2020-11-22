@@ -3,11 +3,11 @@ package gfuf.prodota.mafia.manager.impl;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.data.content.SectionContent;
 import gfuf.prodota.mafia.manager.MafiaManager;
-import gfuf.prodota.parser.Parser;
+import gfuf.prodota.parser.section.SectionParser;
+import gfuf.prodota.parser.topic.TopicParser;
 import gfuf.utils.ProdotaRuntimeException;
 import gfuf.web.response.ResponseDecorator;
 import gfuf.web.rest.RestWrapper;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.net.URI;
 import java.util.*;
@@ -20,14 +20,21 @@ public class MafiaSimpleManager implements MafiaManager
 
     private final RestWrapper restWrapper;
 
-    private final Parser parser;
+    private final SectionParser sectionParser;
+
+    private final TopicParser topicParser;
+
 
     private final Predicate<Topic> isGame;
 
-    public MafiaSimpleManager(RestWrapper restWrapper, Parser parser, Predicate<Topic> isGame)
+    public MafiaSimpleManager(RestWrapper restWrapper,
+                              SectionParser sectionParser,
+                              TopicParser topicParser,
+                              Predicate<Topic> isGame)
     {
         this.restWrapper = restWrapper;
-        this.parser = parser;
+        this.sectionParser = sectionParser;
+        this.topicParser = topicParser;
         this.isGame = isGame;
     }
 
@@ -38,11 +45,12 @@ public class MafiaSimpleManager implements MafiaManager
         Optional<Topic> result = Optional.empty();
         do {
             String page = getPage(uri.get());
-            SectionContent sectionContent = parser.parse(page);
+            SectionContent sectionContent = sectionParser.parse(page);
             result = searchLastGameTopic(sectionContent);
             uri = sectionContent.next();
         } while (result.isEmpty() && uri.isPresent());
 
+        System.out.println(loadTopicFirstPicture(URI.create("https://prodota.ru/forum/topic/219637/?do=getNewComment")));
         return result;
     }
 
@@ -53,12 +61,23 @@ public class MafiaSimpleManager implements MafiaManager
         List<Topic> result = new ArrayList<>();
         do{
             String page = getPage(uri.get());
-            SectionContent sectionContent = parser.parse(page);
+            SectionContent sectionContent = sectionParser.parse(page);
             result.addAll(searchAllGameTopic(sectionContent));
             uri = sectionContent.next();
         }while (uri.isPresent());
 
         return result;
+    }
+
+    public Optional<String> loadTopicFirstPicture(Topic topic)
+    {
+        return loadTopicFirstPicture(topic.getUri());
+    }
+
+    private Optional<String> loadTopicFirstPicture(URI uri)
+    {
+        String page = getPage(uri);
+        return topicParser.findFirstPicture(page);
     }
 
     private Optional<Topic> searchLastGameTopic(SectionContent sectionContent)

@@ -1,15 +1,19 @@
 package gfuf.web.rest.impl;
 
+import org.apache.http.HttpStatus;
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import gfuf.web.response.ResponseDecorator;
 import gfuf.web.rest.RestWrapper;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Optional;
 
 //TODO написать полноценный класс
 public class RestSimpleWrapper implements RestWrapper
@@ -43,6 +47,16 @@ public class RestSimpleWrapper implements RestWrapper
         {
            logger.error("Error while get uri = {} ", uri, e);
            exception = e;
+        }
+
+        //если 301 код ошибки, пытаемся редеректнуться на другой урл
+        if(response.statusCode() == HttpStatus.SC_MOVED_PERMANENTLY)
+        {
+            Optional<String> location = response.headers().firstValue(HttpHeaders.LOCATION);
+            if(location.isPresent())
+            {
+                return doGet(URI.create(location.get()));
+            }
         }
 
         return new ResponseDecorator<String>(response.body(), exception);
