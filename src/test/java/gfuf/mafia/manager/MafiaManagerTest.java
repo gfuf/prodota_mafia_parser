@@ -1,5 +1,6 @@
 package gfuf.mafia.manager;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.parser.topic.TopicParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static utils.TestUtils.resourcePath;
+import static utils.TestUtils.*;
 
 public class MafiaManagerTest
 {
@@ -43,8 +45,8 @@ public class MafiaManagerTest
     @Test
     public void testSearchLastGameTopic() throws IOException
     {
-        Topic testTopic = new Topic("Мафия 444. Трудно быть демоном. Ночи в 21-00", URI.create("https://prodota.ru/forum/topic/219541/?do=getNewComment"));
-        Optional<Topic> topic = mafiaManager.searchLastGameTopic();
+        MafiaTopic testTopic = createMafiaTopic("Мафия 444. Трудно быть демоном. Ночи в 21-00", "https://prodota.ru/forum/topic/219541/?do=getNewComment");
+        Optional<MafiaTopic> topic = mafiaManager.searchLastGameTopic();
 
         assertTrue(topic.isPresent());
         assertEquals(topic.get(), testTopic);

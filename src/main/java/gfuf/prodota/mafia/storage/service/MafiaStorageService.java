@@ -1,14 +1,15 @@
 package gfuf.prodota.mafia.storage.service;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 
 import java.util.Optional;
 
 public interface MafiaStorageService
 {
-    Optional<Topic> lastTopic();
+    Optional<MafiaTopic> lastTopic();
 
-    Optional<Topic> topicByUrl(String url);
+    Optional<MafiaTopic> topicByUrl(String url);
 
-    boolean writeTopic(Topic topic);
+    boolean writeTopic(MafiaTopic topic);
 }

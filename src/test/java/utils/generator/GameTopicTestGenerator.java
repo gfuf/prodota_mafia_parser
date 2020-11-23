@@ -1,5 +1,6 @@
 package utils.generator;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
@@ -28,9 +29,9 @@ public class GameTopicTestGenerator
         SectionParser sectionParser = new SectionParser();
         TopicParser topicParser = new TopicParser();
         MafiaManager mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
-        Collection<Topic> topics = mafiaManager.searchAllGameTopic();
+        Collection<MafiaTopic> topics = mafiaManager.searchAllGameTopic();
         Files.createDirectories(resourcePath("generated"));
-        Files.writeString(resourcePath("generated","game_topics.txt"), topics.stream().map(Topic::getName).collect(Collectors.joining("\n")));
+        Files.writeString(resourcePath("generated","game_topics.txt"), topics.stream().map(MafiaTopic::getName).collect(Collectors.joining("\n")));
     }
 
 

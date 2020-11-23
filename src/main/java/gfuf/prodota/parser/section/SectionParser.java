@@ -93,7 +93,12 @@ public class SectionParser
             TopicStatus status = parseTopicStatus(sectionLock);
 
 
-            Topic topic = new Topic(name, uri, status);
+            Topic topic = Topic.builder().setName(name)
+                    .setUri(uri)
+                    .setStatus(status)
+                    .build();
+
+
             topicList.add(topic);
         }
 
@@ -102,7 +107,7 @@ public class SectionParser
 
     private TopicStatus parseTopicStatus(Element element)
     {
-        return element== null ? TopicStatus.OPEN : TopicStatus.CLOSED;
+        return element == null ? TopicStatus.OPEN : TopicStatus.CLOSED;
     }
 
 

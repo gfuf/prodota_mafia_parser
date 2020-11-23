@@ -1,5 +1,6 @@
 package gfuf.telegram.bot;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.data.TopicStatus;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class AnouncerBot extends TelegramLongPollingBot
 
     }
 
-    public boolean sendToAnouncerChat(Topic topic)
+    public boolean sendToAnouncerChat(MafiaTopic topic)
     {
         String message = buildUrlString(topic) + "\n"
                 + buildStatusString(topic.getStatus());
@@ -56,7 +57,7 @@ public class AnouncerBot extends TelegramLongPollingBot
         return success;
     }
 
-    private String buildUrlString(Topic topic)
+    private String buildUrlString(MafiaTopic topic)
     {
         return "<a href=\""+ topic.getUri() +"\">"+ topic.getName()+"</a>";
     }

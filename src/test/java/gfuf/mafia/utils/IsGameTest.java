@@ -2,17 +2,17 @@ package gfuf.mafia.utils;
 
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.utils.IsGame;
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.util.List;
 
 import static utils.TestUtils.resourcePath;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static utils.TestUtils.*;
 
 public class IsGameTest
 {
@@ -30,7 +30,7 @@ public class IsGameTest
 
     private static Topic toTopic(String name)
     {
-        return new Topic(name, URI.create(""));
+        return createTopic(name, "");
     }
 
 

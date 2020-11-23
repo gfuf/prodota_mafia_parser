@@ -1,5 +1,6 @@
 package gfuf.prodota.mafia.manager;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 
 import java.util.Collection;
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public interface MafiaManager
 {
-    Optional<Topic>  searchLastGameTopic();
+    Optional<MafiaTopic>  searchLastGameTopic();
 
-    Collection<Topic> searchAllGameTopic();
+    Collection<MafiaTopic> searchAllGameTopic();
 }

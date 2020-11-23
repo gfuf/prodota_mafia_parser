@@ -1,5 +1,6 @@
 package gfuf.prodota.mafia.storage.dao.impl;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 public class MafiaCacheSingleRecordDAO implements MafiaDAO
 {
-    private Optional<Topic> currentTopic;
+    private Optional<MafiaTopic> currentTopic;
 
     private final MafiaDAO mafiaDAO;
 
@@ -26,13 +27,13 @@ public class MafiaCacheSingleRecordDAO implements MafiaDAO
 
 
     @Override
-    public Optional<Topic> lastTopic()
+    public Optional<MafiaTopic> lastTopic()
     {
         return currentTopic;
     }
 
     @Override
-    public Optional<Topic> topicByUrl(String url)
+    public Optional<MafiaTopic> topicByUrl(String url)
     {
         return currentTopic
                 .filter(t -> Objects.equals(t.getUri().toString(), url))
@@ -40,7 +41,7 @@ public class MafiaCacheSingleRecordDAO implements MafiaDAO
     }
 
     @Override
-    public boolean writeTopic(Topic topic)
+    public boolean writeTopic(MafiaTopic topic)
     {
         boolean success = mafiaDAO.writeTopic(topic);
         if (success)

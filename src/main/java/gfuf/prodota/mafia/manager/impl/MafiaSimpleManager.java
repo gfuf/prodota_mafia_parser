@@ -1,5 +1,6 @@
 package gfuf.prodota.mafia.manager.impl;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.data.content.SectionContent;
 import gfuf.prodota.mafia.manager.MafiaManager;
@@ -39,10 +40,10 @@ public class MafiaSimpleManager implements MafiaManager
     }
 
     @Override
-    public Optional<Topic> searchLastGameTopic()
+    public Optional<MafiaTopic> searchLastGameTopic()
     {
         Optional<URI> uri = Optional.of(PRODOTA_MAFIA_START_PAGE_URI);
-        Optional<Topic> result = Optional.empty();
+        Optional<MafiaTopic> result = Optional.empty();
         do {
             String page = getPage(uri.get());
             SectionContent sectionContent = sectionParser.parse(page);
@@ -55,10 +56,10 @@ public class MafiaSimpleManager implements MafiaManager
     }
 
     @Override
-    public Collection<Topic> searchAllGameTopic()
+    public Collection<MafiaTopic> searchAllGameTopic()
     {
         Optional<URI> uri = Optional.of(PRODOTA_MAFIA_START_PAGE_URI);
-        List<Topic> result = new ArrayList<>();
+        List<MafiaTopic> result = new ArrayList<>();
         do{
             String page = getPage(uri.get());
             SectionContent sectionContent = sectionParser.parse(page);
@@ -80,14 +81,20 @@ public class MafiaSimpleManager implements MafiaManager
         return topicParser.findFirstPicture(page);
     }
 
-    private Optional<Topic> searchLastGameTopic(SectionContent sectionContent)
+    private Optional<MafiaTopic> searchLastGameTopic(SectionContent sectionContent)
     {
-        return sectionContent.topics().stream().filter(isGame::test).findFirst();
+        return sectionContent.topics().stream().filter(isGame::test).map(this::toMafiaTopic).findFirst();
     }
 
-    private Collection<Topic> searchAllGameTopic(SectionContent sectionContent)
+    private Collection<MafiaTopic> searchAllGameTopic(SectionContent sectionContent)
     {
-        return sectionContent.topics().stream().filter(isGame::test).collect(Collectors.toList());
+        return sectionContent.topics().stream().filter(isGame::test).map(this::toMafiaTopic).collect(Collectors.toList());
+    }
+
+    private MafiaTopic toMafiaTopic(Topic topic)
+    {
+        //load picture
+        return MafiaTopic.builder().from(topic).build();
     }
 
     private String getPage(URI uri)

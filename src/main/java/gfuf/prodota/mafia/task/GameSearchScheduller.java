@@ -1,5 +1,6 @@
 package gfuf.prodota.mafia.task;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.telegram.bot.AnouncerBot;
@@ -29,12 +30,12 @@ public class GameSearchScheduller
     @Scheduled(fixedDelay = 5000)
     public void search()
     {
-        Optional<Topic> lastGameTopic = mafiaManager.searchLastGameTopic();
+        Optional<MafiaTopic> lastGameTopic = mafiaManager.searchLastGameTopic();
 
 
         if(lastGameTopic.isPresent())
         {
-            Optional<Topic> topicFromCache = mafiaStorageService.topicByUrl(lastGameTopic.get().getUri().toString());
+            Optional<MafiaTopic> topicFromCache = mafiaStorageService.topicByUrl(lastGameTopic.get().getUri().toString());
             //такого топика ещё не было
             if(topicFromCache.isEmpty())
             {

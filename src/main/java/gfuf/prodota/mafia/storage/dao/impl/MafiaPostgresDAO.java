@@ -1,5 +1,6 @@
 package gfuf.prodota.mafia.storage.dao.impl;
 
+import gfuf.prodota.data.MafiaTopic;
 import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 import gfuf.prodota.mafia.storage.mapper.TopicMapper;
@@ -23,25 +24,25 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
     }
 
     @Override
-    public Optional<Topic> lastTopic()
+    public Optional<MafiaTopic> lastTopic()
     {
-        List<Topic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE id = (SELECT MAX(id) FROM topics)",
+        List<MafiaTopic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE id = (SELECT MAX(id) FROM topics)",
                 TOPIC_MAPPER);
 
         return Optional.ofNullable(DataAccessUtils.singleResult(topic));
     }
 
     @Override
-    public Optional<Topic> topicByUrl(String url)
+    public Optional<MafiaTopic> topicByUrl(String url)
     {
-        List<Topic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE url = ?",
+        List<MafiaTopic> topic = this.getJdbcTemplate().query("SELECT * FROM topics WHERE url = ?",
                 TOPIC_MAPPER, url);
 
         return Optional.ofNullable(DataAccessUtils.singleResult(topic));
     }
 
     @Override
-    public boolean writeTopic(Topic topic)
+    public boolean writeTopic(MafiaTopic topic)
     {
         int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url) VALUES (?, ?);",
                 topic.getName(),
