@@ -1,7 +1,7 @@
 package gfuf.prodota.mafia.storage.mapper;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.TopicStatus;
+import gfuf.prodota.data.topic.MafiaTopic;
+import gfuf.prodota.data.topic.TopicStatus;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.net.URI;

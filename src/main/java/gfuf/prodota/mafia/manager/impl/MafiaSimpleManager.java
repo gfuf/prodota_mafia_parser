@@ -1,7 +1,7 @@
 package gfuf.prodota.mafia.manager.impl;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
+import gfuf.prodota.data.topic.Topic;
 import gfuf.prodota.data.content.SectionContent;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.parser.section.SectionParser;
@@ -10,6 +10,7 @@ import gfuf.utils.ProdotaRuntimeException;
 import gfuf.web.response.ResponseDecorator;
 import gfuf.web.rest.RestWrapper;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.net.URI;
 import java.util.*;
 import java.util.function.Predicate;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class MafiaSimpleManager implements MafiaManager
 {
+    //TODO конфигурируемый
     private static final URI PRODOTA_MAFIA_START_PAGE_URI = URI.create("https://prodota.ru/forum/45/");
 
     private final RestWrapper restWrapper;
@@ -51,7 +53,6 @@ public class MafiaSimpleManager implements MafiaManager
             uri = sectionContent.next();
         } while (result.isEmpty() && uri.isPresent());
 
-        System.out.println(loadTopicFirstPicture(URI.create("https://prodota.ru/forum/topic/219637/?do=getNewComment")));
         return result;
     }
 
@@ -70,7 +71,27 @@ public class MafiaSimpleManager implements MafiaManager
         return result;
     }
 
-    public Optional<String> loadTopicFirstPicture(Topic topic)
+
+    private Optional<MafiaTopic> searchLastGameTopic(SectionContent sectionContent)
+    {
+        return sectionContent.topics().stream().filter(isGame::test)
+                .map(this::toMafiaTopic).findFirst();
+    }
+
+    private Collection<MafiaTopic> searchAllGameTopic(SectionContent sectionContent)
+    {
+        return sectionContent.topics().stream().filter(isGame::test)
+                .map(this::toMafiaTopic).collect(Collectors.toList());
+    }
+
+    private MafiaTopic toMafiaTopic(Topic topic)
+    {
+        Optional<String> pictureUrl = loadTopicFirstPicture(topic);
+        return MafiaTopic.builder().from(topic).setPictureUrl(pictureUrl).build();
+    }
+
+    //TODO test, возможно вынести в отдельный класс
+    private Optional<String> loadTopicFirstPicture(Topic topic)
     {
         return loadTopicFirstPicture(topic.getUri());
     }
@@ -79,22 +100,6 @@ public class MafiaSimpleManager implements MafiaManager
     {
         String page = getPage(uri);
         return topicParser.findFirstPicture(page);
-    }
-
-    private Optional<MafiaTopic> searchLastGameTopic(SectionContent sectionContent)
-    {
-        return sectionContent.topics().stream().filter(isGame::test).map(this::toMafiaTopic).findFirst();
-    }
-
-    private Collection<MafiaTopic> searchAllGameTopic(SectionContent sectionContent)
-    {
-        return sectionContent.topics().stream().filter(isGame::test).map(this::toMafiaTopic).collect(Collectors.toList());
-    }
-
-    private MafiaTopic toMafiaTopic(Topic topic)
-    {
-        //load picture
-        return MafiaTopic.builder().from(topic).build();
     }
 
     private String getPage(URI uri)

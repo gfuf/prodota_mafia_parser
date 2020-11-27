@@ -1,4 +1,4 @@
-package gfuf.prodota.data;
+package gfuf.prodota.data.topic;
 
 public enum TopicStatus
 {

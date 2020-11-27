@@ -1,4 +1,4 @@
-package gfuf.prodota.data;
+package gfuf.prodota.data.topic;
 
 import java.util.Objects;
 import java.util.Optional;

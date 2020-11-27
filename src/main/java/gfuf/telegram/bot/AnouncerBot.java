@@ -1,16 +1,13 @@
 package gfuf.telegram.bot;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
-import gfuf.prodota.data.TopicStatus;
+import gfuf.prodota.data.topic.MafiaTopic;
+import gfuf.prodota.data.topic.TopicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -42,7 +39,7 @@ public class AnouncerBot extends TelegramLongPollingBot
 
         SendPhoto msg = new SendPhoto()
             .setChatId(anouncerChatId)
-            .setPhoto("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3YIJXRJhNH3UHbuw25_HXdlQMx7olb1moCg&usqp=CAU")
+            .setPhoto(topic.getPictureUrl().get())//TODO а если нет
             .setCaption(message)
             .setParseMode("HTML");
         boolean success;

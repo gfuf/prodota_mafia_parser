@@ -1,7 +1,4 @@
-package gfuf.prodota.data;
-
-import java.net.URI;
-import java.util.Objects;
+package gfuf.prodota.data.topic;
 
 public class Topic extends AbstractTopic
 {

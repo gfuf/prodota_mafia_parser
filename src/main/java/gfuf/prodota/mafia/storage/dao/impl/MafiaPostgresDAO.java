@@ -1,7 +1,6 @@
 package gfuf.prodota.mafia.storage.dao.impl;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 import gfuf.prodota.mafia.storage.mapper.TopicMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +43,11 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
     @Override
     public boolean writeTopic(MafiaTopic topic)
     {
-        int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url) VALUES (?, ?);",
+        int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url, status, picture_url) VALUES (?, ?, ?, ?);",
                 topic.getName(),
-                topic.getUri().toString());
+                topic.getUri().toString(),
+                topic.getStatus().name(),
+                topic.getPictureUrl().orElse(null));
         return i > 0;
     }
 }

@@ -18,7 +18,7 @@ public class TopicParser
     {
         Document doc = Jsoup.parse(body);
 
-        System.out.println(body);
+
         Optional<String> dataSrc = Optional.ofNullable(doc.selectFirst(ARTICLE_IPS_COMMENT))
                 .map(element -> element.selectFirst(DIV_IPS_COMMENT_CONTENT))
                 .map(element -> element.selectFirst(DIV_CPOST_CONTENTWRAP))

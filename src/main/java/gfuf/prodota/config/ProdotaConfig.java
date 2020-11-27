@@ -1,6 +1,5 @@
 package gfuf.prodota.config;
 
-import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 import gfuf.prodota.mafia.storage.dao.impl.MafiaCacheSingleRecordDAO;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;

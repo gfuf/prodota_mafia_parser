@@ -1,6 +1,6 @@
 package gfuf.mafia.utils;
 
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.Topic;
 import gfuf.prodota.mafia.utils.IsGame;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import static utils.TestUtils.resourcePath;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static utils.TestUtils.*;
+import static org.mockito.Mockito.*;
 
 public class IsGameTest
 {
@@ -30,7 +30,11 @@ public class IsGameTest
 
     private static Topic toTopic(String name)
     {
-        return createTopic(name, "");
+
+        Topic topic = mock(Topic.class);
+        when(topic.getName()).thenReturn(name);
+
+        return topic;
     }
 
 

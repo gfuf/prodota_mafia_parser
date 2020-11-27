@@ -1,7 +1,6 @@
 package gfuf.prodota.mafia.manager;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
 
 import java.util.Collection;
 import java.util.Optional;

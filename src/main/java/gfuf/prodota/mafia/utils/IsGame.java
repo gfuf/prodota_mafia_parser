@@ -1,6 +1,6 @@
 package gfuf.prodota.mafia.utils;
 
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.Topic;
 
 import java.util.function.Predicate;
 import java.util.regex.Pattern;

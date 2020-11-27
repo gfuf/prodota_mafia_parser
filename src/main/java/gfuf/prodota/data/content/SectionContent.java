@@ -2,7 +2,7 @@ package gfuf.prodota.data.content;
 
 import org.apache.commons.collections4.CollectionUtils;
 import gfuf.prodota.data.Section;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.Topic;
 
 import java.net.URI;
 import java.util.Collection;

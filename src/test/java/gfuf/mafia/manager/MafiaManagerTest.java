@@ -1,10 +1,9 @@
 package gfuf.mafia.manager;
 
-import gfuf.prodota.data.MafiaTopic;
+import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.parser.topic.TopicParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import gfuf.prodota.data.Topic;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static utils.TestUtils.resourcePath;
-import static utils.TestUtils.*;
 
 public class MafiaManagerTest
 {
@@ -45,10 +43,12 @@ public class MafiaManagerTest
     @Test
     public void testSearchLastGameTopic() throws IOException
     {
-        MafiaTopic testTopic = createMafiaTopic("Мафия 444. Трудно быть демоном. Ночи в 21-00", "https://prodota.ru/forum/topic/219541/?do=getNewComment");
+        MafiaTopic testTopic = mock(MafiaTopic.class);
+        when(testTopic.getUri()).thenReturn(URI.create("https://prodota.ru/forum/topic/219541/?do=getNewComment"));
+
         Optional<MafiaTopic> topic = mafiaManager.searchLastGameTopic();
 
         assertTrue(topic.isPresent());
-        assertEquals(topic.get(), testTopic);
+        assertEquals(topic.get().getUri(), testTopic.getUri());
     }
 }

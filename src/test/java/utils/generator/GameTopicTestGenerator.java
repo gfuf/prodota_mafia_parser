@@ -1,7 +1,6 @@
 package utils.generator;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.mafia.manager.MafiaManager;
 import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;

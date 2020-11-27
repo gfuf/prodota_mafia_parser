@@ -1,7 +1,6 @@
 package gfuf.prodota.mafia.storage.service.impl;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 

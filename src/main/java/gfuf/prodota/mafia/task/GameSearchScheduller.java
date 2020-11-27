@@ -1,7 +1,6 @@
 package gfuf.prodota.mafia.task;
 
-import gfuf.prodota.data.MafiaTopic;
-import gfuf.prodota.data.Topic;
+import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.telegram.bot.AnouncerBot;
 import org.springframework.scheduling.annotation.Scheduled;

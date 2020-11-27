@@ -1,4 +1,6 @@
-package gfuf.prodota.data;
+package gfuf.prodota.data.topic;
+
+import gfuf.prodota.data.IpsData;
 
 import java.net.URI;
 import java.util.Objects;
