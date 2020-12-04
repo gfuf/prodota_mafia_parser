@@ -18,7 +18,7 @@ public class TopicMapper implements RowMapper<MafiaTopic>
         String name = resultSet.getString("name");
         URI uri = URI.create(resultSet.getString("url"));
         TopicStatus status = TopicStatus.valueOf(resultSet.getString("status"));
-        Optional<String> pictureUrl = Optional.ofNullable(resultSet.getString("picture_url"));
+        Optional<URI> pictureUrl = Optional.ofNullable(resultSet.getString("picture_url")).map(URI::create);
         return MafiaTopic.builder().setName(name)
                 .setUri(uri)
                 .setStatus(status)

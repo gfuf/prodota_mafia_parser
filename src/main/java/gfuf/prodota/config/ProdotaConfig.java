@@ -6,6 +6,7 @@ import gfuf.prodota.mafia.storage.service.MafiaStorageService;
 import gfuf.prodota.mafia.storage.service.impl.MafiaSimpleStorageService;
 import gfuf.prodota.parser.topic.TopicParser;
 import gfuf.telegram.bot.AnouncerBot;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import gfuf.prodota.parser.section.SectionParser;
@@ -14,6 +15,8 @@ import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
 import gfuf.prodota.mafia.utils.IsGame;
 import gfuf.prodota.mafia.task.GameSearchScheduller;
 import gfuf.web.rest.RestWrapper;
+
+import java.net.URI;
 
 @Configuration
 public class ProdotaConfig
@@ -40,9 +43,10 @@ public class ProdotaConfig
     public MafiaManager mafiaManager(RestWrapper restWrapper,
                                      SectionParser sectionParser,
                                      TopicParser topicParser,
-                                     IsGame isGame)
+                                     IsGame isGame,
+                                     @Value("${prodota.mafia.start-page.url}") String prodotaMafiaStartPage)
     {
-        return new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
+        return new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame, URI.create(prodotaMafiaStartPage));
     }
 
     @Bean

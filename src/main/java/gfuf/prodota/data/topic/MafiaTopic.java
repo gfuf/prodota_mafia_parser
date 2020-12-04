@@ -1,11 +1,12 @@
 package gfuf.prodota.data.topic;
 
+import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
 public class MafiaTopic extends AbstractTopic
 {
-    private final Optional<String> pictureUrl;
+    private final Optional<URI> pictureUrl;
 
     public MafiaTopic(Builder builder)
     {
@@ -13,7 +14,7 @@ public class MafiaTopic extends AbstractTopic
         this.pictureUrl = builder.getPictureUrl();
     }
 
-    public Optional<String> getPictureUrl()
+    public Optional<URI> getPictureUrl()
     {
         return pictureUrl;
     }
@@ -41,7 +42,7 @@ public class MafiaTopic extends AbstractTopic
 
     public static class Builder extends Topic.AbstractBuilder<Builder>
     {
-        private Optional<String> pictureUrl;
+        private Optional<URI> pictureUrl;
 
         public Builder from(Topic topic)
         {
@@ -50,13 +51,13 @@ public class MafiaTopic extends AbstractTopic
         }
 
 
-        public Builder setPictureUrl(Optional<String> pictureUrl)
+        public Builder setPictureUrl(Optional<URI> pictureUrl)
         {
             this.pictureUrl = pictureUrl;
             return getThis();
         }
 
-        private Optional<String> getPictureUrl()
+        private Optional<URI> getPictureUrl()
         {
             return pictureUrl;
         }

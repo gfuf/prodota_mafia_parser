@@ -15,7 +15,6 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Optional;
 
-//TODO написать полноценный класс
 public class RestSimpleWrapper implements RestWrapper
 {
     private static final Logger logger = LoggerFactory.getLogger(RestSimpleWrapper.class);
@@ -67,7 +66,7 @@ public class RestSimpleWrapper implements RestWrapper
         return HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
-                .setHeader("User-Agent", USER_AGENT) // TODO add request header
+                .setHeader("User-Agent", USER_AGENT)
                 .build();
     }
 }

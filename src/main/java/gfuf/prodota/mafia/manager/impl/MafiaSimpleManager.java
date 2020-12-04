@@ -18,33 +18,33 @@ import java.util.stream.Collectors;
 
 public class MafiaSimpleManager implements MafiaManager
 {
-    //TODO конфигурируемый
-    private static final URI PRODOTA_MAFIA_START_PAGE_URI = URI.create("https://prodota.ru/forum/45/");
-
     private final RestWrapper restWrapper;
 
     private final SectionParser sectionParser;
 
     private final TopicParser topicParser;
 
-
     private final Predicate<Topic> isGame;
+
+    private final URI prodotaMafiaStartPageUri;
 
     public MafiaSimpleManager(RestWrapper restWrapper,
                               SectionParser sectionParser,
                               TopicParser topicParser,
-                              Predicate<Topic> isGame)
+                              Predicate<Topic> isGame,
+                              URI prodotaMafiaStartPageUri)
     {
         this.restWrapper = restWrapper;
         this.sectionParser = sectionParser;
         this.topicParser = topicParser;
         this.isGame = isGame;
+        this.prodotaMafiaStartPageUri = prodotaMafiaStartPageUri;
     }
 
     @Override
     public Optional<MafiaTopic> searchLastGameTopic()
     {
-        Optional<URI> uri = Optional.of(PRODOTA_MAFIA_START_PAGE_URI);
+        Optional<URI> uri = Optional.of(prodotaMafiaStartPageUri);
         Optional<MafiaTopic> result = Optional.empty();
         do {
             String page = getPage(uri.get());
@@ -59,7 +59,7 @@ public class MafiaSimpleManager implements MafiaManager
     @Override
     public Collection<MafiaTopic> searchAllGameTopic()
     {
-        Optional<URI> uri = Optional.of(PRODOTA_MAFIA_START_PAGE_URI);
+        Optional<URI> uri = Optional.of(prodotaMafiaStartPageUri);
         List<MafiaTopic> result = new ArrayList<>();
         do{
             String page = getPage(uri.get());
@@ -86,11 +86,11 @@ public class MafiaSimpleManager implements MafiaManager
 
     private MafiaTopic toMafiaTopic(Topic topic)
     {
-        Optional<String> pictureUrl = loadTopicFirstPicture(topic);
-        return MafiaTopic.builder().from(topic).setPictureUrl(pictureUrl).build();
+        Optional<URI> pictureUri = loadTopicFirstPicture(topic).map(URI::create);
+        return MafiaTopic.builder().from(topic).setPictureUrl(pictureUri).build();
     }
 
-    //TODO test, возможно вынести в отдельный класс
+
     private Optional<String> loadTopicFirstPicture(Topic topic)
     {
         return loadTopicFirstPicture(topic.getUri());

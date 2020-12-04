@@ -1,6 +1,7 @@
 package gfuf.mafia.manager;
 
 import gfuf.prodota.data.topic.MafiaTopic;
+import gfuf.prodota.data.topic.TopicStatus;
 import gfuf.prodota.parser.topic.TopicParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class MafiaManagerTest
         SectionParser sectionParser = new SectionParser();
         TopicParser topicParser = new TopicParser();
 
-        mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
+        mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame, URI.create("https://prodota.ru/forum/45/"));
 
     }
 
@@ -45,6 +46,9 @@ public class MafiaManagerTest
     {
         MafiaTopic testTopic = mock(MafiaTopic.class);
         when(testTopic.getUri()).thenReturn(URI.create("https://prodota.ru/forum/topic/219541/?do=getNewComment"));
+        when(testTopic.getName()).thenReturn("Мафия 444. Трудно быть демоном. Ночи в 21-00");
+        when(testTopic.getStatus()).thenReturn(TopicStatus.CLOSED);
+        when(testTopic.getPictureUrl()).thenReturn(Optional.ofNullable(URI.create("https://prodota.ru/forum/topic/219541/?do=getNewComment")));
 
         Optional<MafiaTopic> topic = mafiaManager.searchLastGameTopic();
 

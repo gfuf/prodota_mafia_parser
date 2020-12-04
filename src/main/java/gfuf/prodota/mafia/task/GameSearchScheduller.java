@@ -44,12 +44,6 @@ public class GameSearchScheduller
                     mafiaStorageService.writeTopic(lastGameTopic.get());
                 }
             }
-            else
-            {
-                System.out.println("Equals"); //TODO видимо ничего делать не надо, возможно обновить данные
-            }
         }
-
-
     }
 }

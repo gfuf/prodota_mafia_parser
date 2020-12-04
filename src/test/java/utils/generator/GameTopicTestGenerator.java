@@ -27,7 +27,7 @@ public class GameTopicTestGenerator
         IsGame isGame = new IsGame();
         SectionParser sectionParser = new SectionParser();
         TopicParser topicParser = new TopicParser();
-        MafiaManager mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame);
+        MafiaManager mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame, URI.create("https://prodota.ru/forum/45/"));
         Collection<MafiaTopic> topics = mafiaManager.searchAllGameTopic();
         Files.createDirectories(resourcePath("generated"));
         Files.writeString(resourcePath("generated","game_topics.txt"), topics.stream().map(MafiaTopic::getName).collect(Collectors.joining("\n")));

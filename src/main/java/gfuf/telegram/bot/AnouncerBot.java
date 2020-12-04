@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -34,19 +35,33 @@ public class AnouncerBot extends TelegramLongPollingBot
 
     public boolean sendToAnouncerChat(MafiaTopic topic)
     {
-        String message = buildUrlString(topic) + "\n"
-                + buildStatusString(topic.getStatus());
+        boolean success;
+        if (topic.getPictureUrl().isPresent())
+        {
+            success = sendPitctureToAnouncerChat(topic);
+        } else
+        {
+            success = sendMessageToAnouncerChat(topic);
+        }
+        return success;
+    }
+
+    private boolean sendPitctureToAnouncerChat(MafiaTopic topic)
+    {
+        String message = buildText(topic);
 
         SendPhoto msg = new SendPhoto()
-            .setChatId(anouncerChatId)
-            .setPhoto(topic.getPictureUrl().get())//TODO а если нет
-            .setCaption(message)
-            .setParseMode("HTML");
+                .setChatId(anouncerChatId)
+                .setPhoto(topic.getPictureUrl().get().toString())
+                .setCaption(message)
+                .setParseMode("HTML");
         boolean success;
-        try {
+        try
+        {
             execute(msg);
             success = true;
-        } catch (TelegramApiException e) {
+        } catch (TelegramApiException e)
+        {
             logger.error("Failed to send message \"{}\" to {} due to error: {}", message, anouncerChatId, e.getMessage());
             success = false;
         }
@@ -54,18 +69,47 @@ public class AnouncerBot extends TelegramLongPollingBot
         return success;
     }
 
+    private boolean sendMessageToAnouncerChat(MafiaTopic topic)
+    {
+        String message = buildText(topic);
+
+        SendMessage msg = new SendMessage()
+                .setChatId(anouncerChatId)
+                .setText(message)
+                .setParseMode("HTML");
+        boolean success;
+        try
+        {
+            execute(msg);
+            success = true;
+        } catch (TelegramApiException e)
+        {
+            logger.error("Failed to send message \"{}\" to {} due to error: {}", message, anouncerChatId, e.getMessage());
+            success = false;
+        }
+
+        return success;
+    }
+
+    private String buildText(MafiaTopic topic)
+    {
+        return buildUrlString(topic) + "\n"
+                + buildStatusString(topic.getStatus());
+    }
+
+
     private String buildUrlString(MafiaTopic topic)
     {
-        return "<a href=\""+ topic.getUri() +"\">"+ topic.getName()+"</a>";
+        return "<a href=\"" + topic.getUri() + "\">" + topic.getName() + "</a>";
     }
+
     private String buildStatusString(TopicStatus status)
     {
         String result = null;
-        if(TopicStatus.OPEN.equals(status))
+        if (TopicStatus.OPEN.equals(status))
         {
             result = "Тема <b>открыта</b>";
-        }
-        else if(TopicStatus.CLOSED.equals(status))
+        } else if (TopicStatus.CLOSED.equals(status))
         {
             result = "Тема <b>закрыта</b>";
         }
