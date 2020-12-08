@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.net.URI;
 import java.util.*;
 
 @Repository
@@ -47,7 +48,7 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
                 topic.getName(),
                 topic.getUri().toString(),
                 topic.getStatus().name(),
-                topic.getPictureUrl().orElse(null));
+                topic.getPictureUrl().map(URI::toString).orElse(null));
         return i > 0;
     }
 }

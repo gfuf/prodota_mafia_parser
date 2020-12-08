@@ -1,6 +1,7 @@
 package gfuf.telegram.bot;
 
 import gfuf.prodota.data.topic.MafiaTopic;
+import gfuf.prodota.data.topic.Topic;
 import gfuf.prodota.data.topic.TopicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,11 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
@@ -88,6 +93,62 @@ public class AnouncerBot extends TelegramLongPollingBot
             success = false;
         }
 
+        return success;
+    }
+
+    private boolean editMessage(MafiaTopic topic)
+    {
+        int messageId = 0;//TODO
+        boolean success = true;
+        success&=editPicture(topic,messageId);
+        success&=editText(topic,messageId);
+        return success;
+    }
+
+    private boolean editPicture(MafiaTopic topic, int messageId)
+    {
+        boolean success = true;
+        if (topic.getPictureUrl().isPresent())
+        {
+            InputMediaPhoto inputMediaPhoto = new InputMediaPhoto();
+            inputMediaPhoto.setMedia(topic.getPictureUrl().get().toString());
+
+
+            EditMessageMedia msg = new EditMessageMedia()
+                    .setChatId(anouncerChatId)
+                    .setMessageId(messageId);
+            msg.setMedia(inputMediaPhoto);
+            try
+            {
+                execute(msg);
+            } catch (TelegramApiException e)
+            {
+                success = false;
+                logger.error("Failed to edit media message pictureUrl = {}, messageId = {} to {} due to error: {}",
+                        topic.getPictureUrl().get(), messageId, anouncerChatId, e.getMessage());
+            }
+        }
+
+        return success;
+    }
+
+    private boolean editText(MafiaTopic topic, int messageId)
+    {
+        boolean success = true;
+        String caption = buildText(topic);
+        EditMessageCaption msg = new EditMessageCaption()
+                .setChatId(String.valueOf(anouncerChatId))
+                .setMessageId(messageId)
+                .setCaption(caption);
+        try
+        {
+            execute(msg);
+        } catch (TelegramApiException e)
+        {
+            success = false;
+            logger.error("Failed to edit caption message caption = {},  messageId = {} to {} due to error: {}",
+                    caption, messageId, anouncerChatId, e.getMessage());
+        }
         return success;
     }
 
