@@ -3,20 +3,27 @@ package gfuf.telegram.bot;
 import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.data.topic.Topic;
 import gfuf.prodota.data.topic.TopicStatus;
+import gfuf.telegram.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.Optional;
+
+//TODO завести конфигурацию, а не аннотациями
 @Component
 public class AnouncerBot extends TelegramLongPollingBot
 {
@@ -31,11 +38,14 @@ public class AnouncerBot extends TelegramLongPollingBot
     @Value("${telegram.bot.token}")
     private String token;
 
+    @Autowired
+    private MessageService messageService;
+
 
     @Override
     public void onUpdateReceived(Update update)
     {
-
+    
     }
 
     public boolean sendToAnouncerChat(MafiaTopic topic)
@@ -53,21 +63,22 @@ public class AnouncerBot extends TelegramLongPollingBot
 
     private boolean sendPitctureToAnouncerChat(MafiaTopic topic)
     {
-        String message = buildText(topic);
+        String text = buildText(topic);
 
-        SendPhoto msg = new SendPhoto()
+        SendPhoto sendPhoto = new SendPhoto()
                 .setChatId(anouncerChatId)
                 .setPhoto(topic.getPictureUrl().get().toString())
-                .setCaption(message)
+                .setCaption(text)
                 .setParseMode("HTML");
         boolean success;
         try
         {
-            execute(msg);
+            Message message = execute(sendPhoto);
             success = true;
+            messageService.tryWriteMapping(message, topic);
         } catch (TelegramApiException e)
         {
-            logger.error("Failed to send message \"{}\" to {} due to error: {}", message, anouncerChatId, e.getMessage());
+            logger.error("Failed to send message \"{}\" to {} due to error: {}", text, anouncerChatId, e.getMessage());
             success = false;
         }
 
@@ -76,32 +87,41 @@ public class AnouncerBot extends TelegramLongPollingBot
 
     private boolean sendMessageToAnouncerChat(MafiaTopic topic)
     {
-        String message = buildText(topic);
+        String text = buildText(topic);
 
-        SendMessage msg = new SendMessage()
+        SendMessage sendMessage = new SendMessage()
                 .setChatId(anouncerChatId)
-                .setText(message)
+                .setText(text)
                 .setParseMode("HTML");
         boolean success;
         try
         {
-            execute(msg);
+            Message message = execute(sendMessage);
             success = true;
+            messageService.tryWriteMapping(message, topic);
         } catch (TelegramApiException e)
         {
-            logger.error("Failed to send message \"{}\" to {} due to error: {}", message, anouncerChatId, e.getMessage());
+            logger.error("Failed to send message \"{}\" to {} due to error: {}", text, anouncerChatId, e.getMessage());
             success = false;
         }
 
         return success;
     }
 
-    private boolean editMessage(MafiaTopic topic)
+    public boolean editMessage(MafiaTopic topic)
     {
-        int messageId = 0;//TODO
+        Optional<Integer> chatId = messageService
+                .chatIdByUrl(topic.getUri().toString());
+
+        if(chatId.isEmpty())
+        {
+            logger.error("Попытка редактировать сообщение, по урлу которого нет в DAO");
+            return false;
+        }
+
         boolean success = true;
-        success&=editPicture(topic,messageId);
-        success&=editText(topic,messageId);
+        success&=editPicture(topic, chatId.get());
+        success&=editText(topic, chatId.get());
         return success;
     }
 

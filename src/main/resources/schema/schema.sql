@@ -5,3 +5,9 @@ name VARCHAR(100) NOT NULL,
 url VARCHAR(100) UNIQUE NOT NULL,
 status VARCHAR(100)  NOT NULL,
 picture_url VARCHAR(100));
+
+#DROP TABLE message_mapping;
+
+CREATE TABLE IF NOT EXISTS message_mapping(id SERIAL PRIMARY KEY,
+message_id VARCHAR(100) NOT NULL,
+topic_url VARCHAR(100) UNIQUE NOT NULL);

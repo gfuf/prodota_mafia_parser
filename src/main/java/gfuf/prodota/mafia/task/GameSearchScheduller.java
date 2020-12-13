@@ -6,6 +6,7 @@ import gfuf.telegram.bot.AnouncerBot;
 import org.springframework.scheduling.annotation.Scheduled;
 import gfuf.prodota.mafia.manager.MafiaManager;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class GameSearchScheduller
@@ -25,7 +26,7 @@ public class GameSearchScheduller
         this.anouncerBot = anouncerBot;
 
     }
-
+    //TODO конфигурируемый
     @Scheduled(fixedDelay = 5000)
     public void search()
     {
@@ -39,6 +40,16 @@ public class GameSearchScheduller
             if(topicFromCache.isEmpty())
             {
                 boolean success = anouncerBot.sendToAnouncerChat(lastGameTopic.get());
+                if(success)
+                {
+                    mafiaStorageService.writeTopic(lastGameTopic.get());
+                }
+            }
+            //TODO проверить эту ветку,
+            // как минимум доделать write topic или написать update topic
+            else if(!Objects.equals(lastGameTopic, topicFromCache))
+            {
+                boolean success = anouncerBot.editMessage(lastGameTopic.get());
                 if(success)
                 {
                     mafiaStorageService.writeTopic(lastGameTopic.get());
