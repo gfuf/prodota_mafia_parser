@@ -159,7 +159,8 @@ public class AnouncerBot extends TelegramLongPollingBot
         EditMessageCaption msg = new EditMessageCaption()
                 .setChatId(String.valueOf(anouncerChatId))
                 .setMessageId(messageId)
-                .setCaption(caption);
+                .setCaption(caption)
+                .setParseMode("HTML");
         try
         {
             execute(msg);

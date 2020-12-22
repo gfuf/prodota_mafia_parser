@@ -44,7 +44,11 @@ public class MafiaPostgresDAO extends JdbcDaoSupport implements MafiaDAO
     @Override
     public boolean writeTopic(MafiaTopic topic)
     {
-        int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url, status, picture_url) VALUES (?, ?, ?, ?);",
+        int i = this.getJdbcTemplate().update("INSERT INTO topics(name, url, status, picture_url) VALUES (?, ?, ?, ?)" +
+                        "ON CONFLICT (url) DO UPDATE" +
+                        " SET name = excluded.name," +
+                        " status = excluded.status," +
+                        " picture_url = excluded.picture_url;",
                 topic.getName(),
                 topic.getUri().toString(),
                 topic.getStatus().name(),

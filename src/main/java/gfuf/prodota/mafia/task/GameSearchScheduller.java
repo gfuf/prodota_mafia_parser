@@ -45,8 +45,7 @@ public class GameSearchScheduller
                     mafiaStorageService.writeTopic(lastGameTopic.get());
                 }
             }
-            //TODO проверить эту ветку,
-            // как минимум доделать write topic или написать update topic
+            //проверка на изменения в топике
             else if(!Objects.equals(lastGameTopic, topicFromCache))
             {
                 boolean success = anouncerBot.editMessage(lastGameTopic.get());

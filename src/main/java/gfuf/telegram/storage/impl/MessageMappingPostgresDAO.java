@@ -4,11 +4,13 @@ import gfuf.telegram.storage.MessageMappingDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MessageMappingPostgresDAO extends JdbcDaoSupport implements MessageMappingDAO
 {
     @Autowired
