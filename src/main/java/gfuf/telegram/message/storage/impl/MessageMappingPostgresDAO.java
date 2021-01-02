@@ -1,6 +1,6 @@
-package gfuf.telegram.storage.impl;
+package gfuf.telegram.message.storage.impl;
 
-import gfuf.telegram.storage.MessageMappingDAO;
+import gfuf.telegram.message.storage.MessageMappingDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;

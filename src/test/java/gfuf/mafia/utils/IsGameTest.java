@@ -16,7 +16,8 @@ import static org.mockito.Mockito.*;
 
 public class IsGameTest
 {
-    private IsGame isGame = new IsGame();
+    //TODO
+    private IsGame isGame = new IsGame(null);
 
     @Test
     public void testByGenerated() throws IOException

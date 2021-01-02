@@ -1,8 +1,12 @@
 package gfuf.prodota.config;
 
 import gfuf.prodota.mafia.storage.dao.MafiaDAO;
+import gfuf.prodota.mafia.storage.dao.MafiaGameDAO;
 import gfuf.prodota.mafia.storage.dao.impl.MafiaCacheSingleRecordDAO;
+import gfuf.prodota.mafia.storage.dao.impl.MafiaGameCacheDAO;
+import gfuf.prodota.mafia.storage.service.MafiaIsGameCustomizableService;
 import gfuf.prodota.mafia.storage.service.MafiaStorageService;
+import gfuf.prodota.mafia.storage.service.impl.MafiaIsGameCustomizableSimpleService;
 import gfuf.prodota.mafia.storage.service.impl.MafiaSimpleStorageService;
 import gfuf.prodota.parser.topic.TopicParser;
 import gfuf.telegram.bot.AnouncerBot;
@@ -34,10 +38,24 @@ public class ProdotaConfig
     }
 
     @Bean
-    public IsGame isGame()
+    public IsGame isGame(MafiaIsGameCustomizableService mafiaIsGameCustomService)
     {
-        return new IsGame();
+        return new IsGame(mafiaIsGameCustomService);
     }
+
+    @Bean
+    public MafiaIsGameCustomizableService mafiaIsGameCustomService(MafiaGameDAO mafiaGameCacheDAO)
+    {
+        return new MafiaIsGameCustomizableSimpleService(mafiaGameCacheDAO);
+    }
+
+    @Bean
+    public MafiaGameDAO mafiaGameCacheDAO(MafiaGameDAO mafiaGamePostgresDAO)
+    {
+        return new MafiaGameCacheDAO(mafiaGamePostgresDAO);
+    }
+
+
 
     @Bean
     public MafiaManager mafiaManager(RestWrapper restWrapper,

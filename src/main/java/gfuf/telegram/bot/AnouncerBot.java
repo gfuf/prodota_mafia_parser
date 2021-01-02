@@ -1,26 +1,25 @@
 package gfuf.telegram.bot;
 
 import gfuf.prodota.data.topic.MafiaTopic;
-import gfuf.prodota.data.topic.Topic;
 import gfuf.prodota.data.topic.TopicStatus;
-import gfuf.telegram.service.MessageService;
+import gfuf.telegram.bot.receive.UpdateReceiver;
+import gfuf.telegram.message.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
 import java.util.Optional;
 
 //TODO завести конфигурацию, а не аннотациями
@@ -41,11 +40,16 @@ public class AnouncerBot extends TelegramLongPollingBot
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UpdateReceiver updateReceiver;
+
 
     @Override
     public void onUpdateReceived(Update update)
     {
-    
+        List<SendMessage> messages = updateReceiver.handle(update);
+        messages.forEach(message ->
+                    executeWithExceptionCheck(message));
     }
 
     public boolean sendToAnouncerChat(MafiaTopic topic)
@@ -59,6 +63,21 @@ public class AnouncerBot extends TelegramLongPollingBot
             success = sendMessageToAnouncerChat(topic);
         }
         return success;
+    }
+
+    private boolean executeWithExceptionCheck(SendMessage sendMessage) {
+        boolean success = true;
+        try
+        {
+            execute(sendMessage);
+        }
+        catch (TelegramApiException e)
+        {
+            logger.error("Failed to send message \"{}\" to {} due to error: {}", sendMessage.getText(), sendMessage.getChatId(),
+                    e.getMessage());
+            success = false;
+        }
+        return  success;
     }
 
     private boolean sendPitctureToAnouncerChat(MafiaTopic topic)
@@ -197,6 +216,8 @@ public class AnouncerBot extends TelegramLongPollingBot
         }
         return result;
     }
+
+
 
     @Override
     public String getBotUsername()

@@ -2,6 +2,7 @@ package gfuf.mafia.manager;
 
 import gfuf.prodota.data.topic.MafiaTopic;
 import gfuf.prodota.data.topic.TopicStatus;
+import gfuf.prodota.mafia.storage.service.MafiaIsGameCustomizableService;
 import gfuf.prodota.parser.topic.TopicParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,10 @@ public class MafiaManagerTest
         String page = Files.readString(resourcePath("prodota_forum_mafia.html"));
         when(restWrapper.doGet(any(URI.class))).thenReturn(new ResponseDecorator<>(page));
 
-        IsGame isGame = new IsGame();
+        MafiaIsGameCustomizableService mafiaIsGameCustomService = mock(MafiaIsGameCustomizableService.class);
+        when(mafiaIsGameCustomService.isGameTopic(any(String.class))).thenReturn(Optional.empty());
+
+        IsGame isGame = new IsGame(mafiaIsGameCustomService);
         SectionParser sectionParser = new SectionParser();
         TopicParser topicParser = new TopicParser();
 

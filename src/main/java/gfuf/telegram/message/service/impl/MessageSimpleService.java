@@ -1,9 +1,8 @@
-package gfuf.telegram.service.impl;
+package gfuf.telegram.message.service.impl;
 
 import gfuf.prodota.data.topic.MafiaTopic;
-import gfuf.telegram.bot.AnouncerBot;
-import gfuf.telegram.service.MessageService;
-import gfuf.telegram.storage.MessageMappingDAO;
+import gfuf.telegram.message.service.MessageService;
+import gfuf.telegram.message.storage.MessageMappingDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Message;

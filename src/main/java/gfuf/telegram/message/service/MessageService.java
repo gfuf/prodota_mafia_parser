@@ -1,4 +1,4 @@
-package gfuf.telegram.service;
+package gfuf.telegram.message.service;
 
 import gfuf.prodota.data.topic.MafiaTopic;
 import org.telegram.telegrambots.meta.api.objects.Message;

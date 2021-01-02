@@ -1,4 +1,4 @@
-package gfuf.telegram.storage;
+package gfuf.telegram.message.storage;
 
 import java.util.Optional;
 
