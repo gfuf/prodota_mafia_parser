@@ -1,6 +1,6 @@
 package gfuf.telegram.customer.dao.service;
 
-import gfuf.telegram.bot.State;
+import gfuf.telegram.bot.receive.State;
 import gfuf.telegram.customer.Customer;
 import gfuf.telegram.customer.CustomerRole;
 
@@ -15,6 +15,14 @@ public interface CustomerService
     default Customer saveCustomer(Customer customer)
     {
         return saveCustomer(customer.getTelegramUserId(), customer.getRole(), customer.getState(), customer.getPrivateChatId());
+    }
+
+    default Customer saveCustomer(Customer customer, State newState)
+    {
+        return saveCustomer(Customer.builder()
+                .from(customer)
+                .setState(newState)
+                .build());
     }
 
     Customer saveCustomerIfNotExists(Integer telegramUserId, CustomerRole customerRole, State state, Long privateChatId);

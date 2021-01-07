@@ -23,14 +23,16 @@ public class TestUtils
 
     public static Topic createTopic(String name, String url, TopicStatus status)
     {
-        return Topic.builder().setName(name)
+        return Topic.builder()
+                .setName(name)
                 .setUri(URI.create(url))
                 .setStatus(status).build();
     }
 
     public static MafiaTopic createMafiaTopic(String name, String url)
     {
-        return MafiaTopic.builder().setName(name)
+        return MafiaTopic.builder()
+                .setName(name)
                 .setUri(URI.create(url)).build();
     }
 

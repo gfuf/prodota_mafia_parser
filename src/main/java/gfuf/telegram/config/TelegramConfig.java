@@ -1,6 +1,8 @@
 package gfuf.telegram.config;
 
 import gfuf.telegram.bot.receive.UpdateReceiver;
+import gfuf.telegram.bot.receive.holder.UpdateHandlersHolder;
+import gfuf.telegram.converter.UpdateConverter;
 import gfuf.telegram.customer.dao.service.CustomerService;
 import gfuf.telegram.customer.dao.service.impl.CustomerSimpleService;
 import gfuf.telegram.customer.dao.storage.CustomerDAO;
@@ -21,9 +23,17 @@ public class TelegramConfig
     }
 
     @Bean
-    public UpdateReceiver updateReceiver(CustomerService customerService)
+    public UpdateReceiver updateReceiver(CustomerService customerService,
+                                         UpdateConverter updateConverter,
+                                         UpdateHandlersHolder updateHandlersHolder)
     {
-        return new UpdateReceiver(customerService);
+        return new UpdateReceiver(customerService, updateConverter, updateHandlersHolder);
+    }
+
+    @Bean
+    public UpdateConverter updateConverter()
+    {
+        return new UpdateConverter();
     }
 
     @Bean

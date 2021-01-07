@@ -1,6 +1,6 @@
 package gfuf.telegram.customer.dao.storage.impl;
 
-import gfuf.telegram.bot.State;
+import gfuf.telegram.bot.receive.State;
 import gfuf.telegram.customer.Customer;
 import gfuf.telegram.customer.CustomerRole;
 import gfuf.telegram.customer.dao.mapper.CustomerMapper;

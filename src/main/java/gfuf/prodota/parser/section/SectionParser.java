@@ -1,6 +1,7 @@
 package gfuf.prodota.parser.section;
 
 import gfuf.prodota.data.topic.TopicStatus;
+import gfuf.utils.UriHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -88,7 +89,7 @@ public class SectionParser
             Element sectionA = eTopic.selectFirst(PATH_TO_TOPIC_A);
             String name = sectionA.text();
             String href = sectionA.attr(HREF);
-            URI uri = URI.create(href);
+            URI uri = UriHelper.createWithoutParameters(href);
             Element sectionLock = eTopic.selectFirst(PATH_TO_FA_LOCK);
             TopicStatus status = parseTopicStatus(sectionLock);
 

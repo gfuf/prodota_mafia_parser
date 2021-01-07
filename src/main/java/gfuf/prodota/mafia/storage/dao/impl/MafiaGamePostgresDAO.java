@@ -30,7 +30,6 @@ public class MafiaGamePostgresDAO extends JdbcDaoSupport implements MafiaGameDAO
         this.setDataSource(dataSource);
     }
 
-    //TODO проверить что при апдейте true
     @Override
     public boolean setIsGameTopic(String url, boolean isGameTopic)
     {

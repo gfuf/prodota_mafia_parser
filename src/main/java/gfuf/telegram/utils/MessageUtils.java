@@ -1,10 +1,15 @@
 package gfuf.telegram.utils;
 
+import gfuf.telegram.bot.receive.handler.impl.utils.KeyAction;
 import gfuf.telegram.customer.Customer;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MessageUtils
@@ -13,27 +18,12 @@ public class MessageUtils
         return createMessageTemplate(customer.getPrivateChatId());
     }
 
-
-    // Создаем шаблон SendMessage с включенным Markdown
     public static SendMessage createMessageTemplate(Long chatId) {
         return new SendMessage()
                 .setChatId(chatId)
                 .enableMarkdown(true);
     }
 
-    public static String buildFullUserName(Update update)
-    {
-        String firstName =  defaultIfBlankNull(update.getMessage().getFrom().getFirstName());
-        String secondName = defaultIfBlankNull(" " + update.getMessage().getFrom().getLastName());
-        return  firstName + secondName;
-    }
-
-
-    public static String buildUserName(Update update)
-    {
-        String userName = update.getMessage().getFrom().getUserName();
-        return userName == null ? "" : String.format("(@%s)", userName);
-    }
 
     public static String defaultIfBlankNull(String str)
     {
@@ -47,4 +37,17 @@ public class MessageUtils
         }
         return "";
     }
+
+    public static List<InlineKeyboardButton> createOneButtonRow(KeyAction action)
+    {
+        return List.of(createInlineKeyboardButton(action.getText(), action.getCommand()));
+    }
+
+    public static InlineKeyboardButton createInlineKeyboardButton(String text, String command)
+    {
+        return new InlineKeyboardButton()
+                .setText(text)
+                .setCallbackData(command);
+    }
+
 }

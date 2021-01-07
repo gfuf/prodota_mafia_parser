@@ -1,6 +1,6 @@
 package gfuf.telegram.customer.dao.mapper;
 
-import gfuf.telegram.bot.State;
+import gfuf.telegram.bot.receive.State;
 import gfuf.telegram.customer.Customer;
 import gfuf.telegram.customer.CustomerRole;
 import org.springframework.jdbc.core.RowMapper;

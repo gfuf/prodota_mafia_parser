@@ -1,6 +1,6 @@
 package gfuf.telegram.customer;
 
-import gfuf.telegram.bot.State;
+import gfuf.telegram.bot.receive.State;
 
 import java.util.Objects;
 

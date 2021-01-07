@@ -47,9 +47,10 @@ public class AnouncerBot extends TelegramLongPollingBot
     @Override
     public void onUpdateReceived(Update update)
     {
+
         List<SendMessage> messages = updateReceiver.handle(update);
         messages.forEach(message ->
-                    executeWithExceptionCheck(message));
+                executeWithExceptionCheck(message));
     }
 
     public boolean sendToAnouncerChat(MafiaTopic topic)
@@ -65,7 +66,8 @@ public class AnouncerBot extends TelegramLongPollingBot
         return success;
     }
 
-    private boolean executeWithExceptionCheck(SendMessage sendMessage) {
+    private boolean executeWithExceptionCheck(SendMessage sendMessage)
+    {
         boolean success = true;
         try
         {
@@ -77,7 +79,7 @@ public class AnouncerBot extends TelegramLongPollingBot
                     e.getMessage());
             success = false;
         }
-        return  success;
+        return success;
     }
 
     private boolean sendPitctureToAnouncerChat(MafiaTopic topic)
@@ -132,15 +134,15 @@ public class AnouncerBot extends TelegramLongPollingBot
         Optional<Integer> chatId = messageService
                 .chatIdByUrl(topic.getUri().toString());
 
-        if(chatId.isEmpty())
+        if (chatId.isEmpty())
         {
             logger.error("Попытка редактировать сообщение, по урлу которого нет в DAO");
             return false;
         }
 
         boolean success = true;
-        success&=editPicture(topic, chatId.get());
-        success&=editText(topic, chatId.get());
+        success &= editPicture(topic, chatId.get());
+        success &= editText(topic, chatId.get());
         return success;
     }
 
@@ -216,7 +218,6 @@ public class AnouncerBot extends TelegramLongPollingBot
         }
         return result;
     }
-
 
 
     @Override
