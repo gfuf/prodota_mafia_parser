@@ -157,7 +157,7 @@ public class DeleteTopicAdminHandler implements UpdateHandler
 
     private List<BotApiMethod<? extends Serializable>> ifIncorrect(Customer customer, UpdateWrapper updateWrapper, String message)
     {
-        logger.warn("incorrect delete topic", updateWrapper);
+        logger.warn("неверный формат сообщения delete topic", updateWrapper);
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(message);

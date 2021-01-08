@@ -101,7 +101,7 @@ public class WriteReportAdminHandler implements UpdateHandler
 
     private List<BotApiMethod<? extends Serializable>> ifIncorrect(Customer customer, UpdateWrapper updateWrapper)
     {
-        logger.warn("incorrect write report " + updateWrapper);
+        logger.warn("неверный формат сообщения write report " + updateWrapper);
 
         customerService.saveCustomer(customer, State.START_ADMIN);
         return updateHandlersHolder.get(State.START_ADMIN).handle(customer, updateWrapper);

@@ -142,7 +142,7 @@ public class AddAdminAdminHandler implements UpdateHandler
 
     private List<BotApiMethod<? extends Serializable>> ifIncorrect(Customer customer, UpdateWrapper updateWrapper, String message)
     {
-        logger.warn("incorrect add admin {}", updateWrapper);
+        logger.warn("неверный формат сообщения add admin {}", updateWrapper);
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(message);

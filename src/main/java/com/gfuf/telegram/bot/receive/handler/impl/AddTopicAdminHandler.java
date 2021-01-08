@@ -128,7 +128,7 @@ public class AddTopicAdminHandler implements UpdateHandler
 
     private List<BotApiMethod<? extends Serializable>> ifIncorrect(Customer customer, UpdateWrapper updateWrapper, String message)
     {
-        logger.warn("incorrect add topic {}", updateWrapper);
+        logger.warn("неверный формат сообщения add topic {}", updateWrapper);
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(message);

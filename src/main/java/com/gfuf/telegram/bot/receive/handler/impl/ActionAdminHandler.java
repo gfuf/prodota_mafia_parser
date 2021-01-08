@@ -78,7 +78,7 @@ public class ActionAdminHandler implements UpdateHandler
 
     private List<BotApiMethod<? extends Serializable>> ifIncorrect(Customer customer, UpdateWrapper updateWrapper)
     {
-        logger.warn("incorrect action admin {}", updateWrapper);
+        logger.warn("неверный формат сообщения action admin {}", updateWrapper);
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(INCORRECT_DEFAULT_MESSAGE);
