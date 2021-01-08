@@ -13,7 +13,7 @@ public class IsGameUrlMapMapper implements ResultSetExtractor<Map<String, Boolea
     @Override
     public Map<String, Boolean> extractData(ResultSet resultSet) throws SQLException, DataAccessException
     {
-        Map<String, Boolean> map =new HashMap<>();
+        Map<String, Boolean> map = new HashMap<>();
         while(resultSet.next()){
             map.put(resultSet.getString("topic_url"), resultSet.getBoolean("is_game"));
         }

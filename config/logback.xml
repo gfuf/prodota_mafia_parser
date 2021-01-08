@@ -98,10 +98,14 @@
     <logger name="com.gfuf" level="debug">
         <appender-ref ref="DebugFile"/>
         <appender-ref ref="WarnFile"/>
-        <appender-ref ref="ErrorFile"/>
     </logger>
 
     <logger name="FeedbackLogger" level="debug">
         <appender-ref ref="FeedbackFile"/>
     </logger>
+
+    <root level="error">
+        <appender-ref ref="ErrorFile" />
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>

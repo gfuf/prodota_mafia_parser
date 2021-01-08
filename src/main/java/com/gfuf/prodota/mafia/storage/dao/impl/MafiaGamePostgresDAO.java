@@ -39,7 +39,7 @@ public class MafiaGamePostgresDAO extends JdbcDaoSupport implements MafiaGameDAO
     @Override
     public Optional<Boolean> isGameTopic(String url)
     {
-        List<Boolean> isGame = this.getJdbcTemplate().query("SELECT * FROM topics WHERE url = ?",
+        List<Boolean> isGame = this.getJdbcTemplate().query("SELECT * FROM is_game_url WHERE topic_url = ?",
                 IS_GAME_MAPPER, url);
 
         return Optional.ofNullable(DataAccessUtils.singleResult(isGame));
@@ -49,7 +49,7 @@ public class MafiaGamePostgresDAO extends JdbcDaoSupport implements MafiaGameDAO
     @Override
     public Map<String, Boolean> getAll()
     {
-        Map<String,Boolean> isGameUrlMap = this.getJdbcTemplate().query("SELECT * FROM topics",
+        Map<String,Boolean> isGameUrlMap = this.getJdbcTemplate().query("SELECT * FROM is_game_url",
                 IS_GAME_URL_MAP_MAPPER);
 
         return isGameUrlMap;
