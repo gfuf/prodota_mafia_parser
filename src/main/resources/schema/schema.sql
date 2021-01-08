@@ -22,5 +22,3 @@ telegram_user_id INTEGER UNIQUE NOT NULL,
 role VARCHAR(100) NOT NULL,
 state VARCHAR(100) NOT NULL,
 private_chat_id BIGINT);
-
-insert into customers(telegram_user_id, role, state, private_chat_id) VALUES (358824227, 'ADMIN', 'START_ADMIN' , 358824227)

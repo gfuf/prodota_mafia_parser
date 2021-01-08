@@ -2,9 +2,9 @@ package utils;
 
 
 
-import gfuf.prodota.data.topic.MafiaTopic;
-import gfuf.prodota.data.topic.Topic;
-import gfuf.prodota.data.topic.TopicStatus;
+import com.gfuf.prodota.data.topic.MafiaTopic;
+import com.gfuf.prodota.data.topic.Topic;
+import com.gfuf.prodota.data.topic.TopicStatus;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.URI;

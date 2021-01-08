@@ -1,14 +1,14 @@
 package utils.generator;
 
-import gfuf.prodota.data.topic.MafiaTopic;
-import gfuf.prodota.mafia.manager.MafiaManager;
-import gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
-import gfuf.prodota.mafia.storage.service.MafiaIsGameCustomizableService;
-import gfuf.prodota.mafia.utils.IsGame;
-import gfuf.prodota.parser.section.SectionParser;
-import gfuf.prodota.parser.topic.TopicParser;
-import gfuf.web.rest.RestWrapper;
-import gfuf.web.rest.impl.RestSimpleWrapper;
+import com.gfuf.prodota.data.topic.MafiaTopic;
+import com.gfuf.prodota.mafia.manager.MafiaManager;
+import com.gfuf.prodota.mafia.manager.impl.MafiaSimpleManager;
+import com.gfuf.prodota.mafia.storage.service.MafiaIsGameCustomizableService;
+import com.gfuf.prodota.mafia.utils.IsGame;
+import com.gfuf.prodota.parser.section.SectionParser;
+import com.gfuf.prodota.parser.topic.TopicParser;
+import com.gfuf.web.rest.RestWrapper;
+import com.gfuf.web.rest.impl.RestSimpleWrapper;
 
 import java.io.IOException;
 import java.net.URI;
