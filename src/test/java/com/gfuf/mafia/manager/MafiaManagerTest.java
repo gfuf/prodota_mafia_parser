@@ -31,7 +31,7 @@ public class MafiaManagerTest
     public void before() throws IOException
     {
         RestWrapper restWrapper = mock(RestWrapper.class);
-        String page = Files.readString(resourcePath("prodota_forum_mafia.html"));
+        String page = new String(Files.readAllBytes(resourcePath("prodota_forum_mafia.html")));
         when(restWrapper.doGet(any(URI.class))).thenReturn(new ResponseDecorator<>(page));
 
         MafiaIsGameCustomizableService mafiaIsGameCustomService = mock(MafiaIsGameCustomizableService.class);

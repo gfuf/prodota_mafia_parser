@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +38,7 @@ public class MessageUtils
 
     public static List<InlineKeyboardButton> createOneButtonRow(KeyAction action)
     {
-        return List.of(createInlineKeyboardButton(action.getText(), action.getCommand()));
+        return Arrays.asList(createInlineKeyboardButton(action.getText(), action.getCommand()));
     }
 
     public static InlineKeyboardButton createInlineKeyboardButton(String text, String command)

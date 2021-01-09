@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class StartDefaultUpdateHandler implements UpdateHandler
@@ -33,7 +34,7 @@ public class StartDefaultUpdateHandler implements UpdateHandler
         customerService.saveCustomer(customer, State.WRITE_REPORT_DEFAULT);
         SendMessage welcomeMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(buildReceiveMessage(updateWrapper));
-        return List.of(welcomeMessage);
+        return Arrays.asList(welcomeMessage);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class GameTopicTestGenerator
         MafiaManager mafiaManager = new MafiaSimpleManager(restWrapper, sectionParser, topicParser, isGame, URI.create("https://prodota.ru/forum/45/"));
         Collection<MafiaTopic> topics = mafiaManager.searchAllGameTopic();
         Files.createDirectories(resourcePath("generated"));
-        Files.writeString(resourcePath("generated","game_topics.txt"), topics.stream().map(MafiaTopic::getName).collect(Collectors.joining("\n")));
+        Files.write(resourcePath("generated","game_topics.txt"), topics.stream().map(MafiaTopic::getName).collect(Collectors.joining("\n")).getBytes());
     }
 
     private static class EmptyMafiaIsGameCustomService implements MafiaIsGameCustomizableService

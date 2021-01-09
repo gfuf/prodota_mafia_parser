@@ -11,6 +11,8 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,7 @@ public class UpdateReceiver
 
         if(!updateWrapper.isPrivateMessage())
         {
-            return List.of();
+            return new ArrayList<>();
         }
         Integer telegramUserId = updateWrapper.getTelegramUserId();
         Long privateChatId = updateWrapper.getChatId();

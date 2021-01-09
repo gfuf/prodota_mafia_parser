@@ -41,7 +41,7 @@ public final class Section implements IpsData
     {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Section) obj;
+        Section that = (Section) obj;
         return Objects.equals(this.name, that.name) &&
                 Objects.equals(this.uri, that.uri);
     }

@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -132,7 +133,7 @@ public class AddTopicAdminHandler implements UpdateHandler
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(message);
-        return List.of(incorrectActionMessage);
+        return Arrays.asList(incorrectActionMessage);
     }
 
     private String buildLogMessage(UpdateWrapper updateWrapper)

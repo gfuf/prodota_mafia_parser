@@ -37,7 +37,7 @@ public class GameSearchScheduller
         {
             Optional<MafiaTopic> topicFromCache = mafiaStorageService.topicByUrl(lastGameTopic.get().getUri().toString());
             //такого топика ещё не было
-            if(topicFromCache.isEmpty())
+            if(!topicFromCache.isPresent())
             {
                 boolean success = anouncerBot.sendToAnouncerChat(lastGameTopic.get());
                 if(success)

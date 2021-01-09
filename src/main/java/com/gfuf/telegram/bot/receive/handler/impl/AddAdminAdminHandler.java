@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class AddAdminAdminHandler implements UpdateHandler
                 return ifIncorrectTelegramId(customer, updateWrapper);
             }
             Optional<Customer> customerById = customerService.getCustomer(telegramId);
-            if (customerById.isEmpty())
+            if (!customerById.isPresent())
             {
                 return ifEmptyCustomerById(customer, updateWrapper);
             }
@@ -146,7 +147,7 @@ public class AddAdminAdminHandler implements UpdateHandler
 
         SendMessage incorrectActionMessage = MessageUtils.createMessageTemplate(customer)
                 .setText(message);
-        return List.of(incorrectActionMessage);
+        return Arrays.asList(incorrectActionMessage);
     }
 
     private String buildLogMessage(UpdateWrapper updateWrapper)

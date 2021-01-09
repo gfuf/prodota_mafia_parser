@@ -138,7 +138,7 @@ public class AnouncerBot extends TelegramLongPollingBot
         Optional<Integer> messageId = messageService
                 .messageIdByTopicUrl(topic.getUri().toString());
 
-        if (messageId.isEmpty())
+        if (!messageId.isPresent())
         {
             logger.error("Попытка редактировать сообщение, по урлу которого нет в DAO");
             return false;

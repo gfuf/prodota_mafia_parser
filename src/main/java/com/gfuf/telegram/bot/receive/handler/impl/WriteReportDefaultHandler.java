@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class WriteReportDefaultHandler implements UpdateHandler
@@ -38,7 +39,7 @@ public class WriteReportDefaultHandler implements UpdateHandler
 
         SendMessage message = MessageUtils.createMessageTemplate(customer)
                 .setText(OK);
-        return List.of(message);
+        return Arrays.asList(message);
     }
 
     @Override

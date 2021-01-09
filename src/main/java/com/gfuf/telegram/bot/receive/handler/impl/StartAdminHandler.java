@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gfuf.telegram.utils.MessageUtils.*;
@@ -68,13 +69,13 @@ public class StartAdminHandler implements UpdateHandler
                 createOneButtonRow(AdminAction.WRITE_REPORT);
 
 
-        inlineKeyboardMarkup.setKeyboard(List.of(inlineKeyboardButtonsRowOne
+        inlineKeyboardMarkup.setKeyboard(Arrays.asList(inlineKeyboardButtonsRowOne
                 , inlineKeyboardButtonsRowTwo
                 , inlineKeyboardButtonsRowThree
                 , inlineKeyboardButtonsRowFour));
 
 
-        return List.of(createMessageTemplate(customer)
+        return Arrays.asList(createMessageTemplate(customer)
                 .setText(buildReceiveMessage(firstName))
                 .setReplyMarkup(inlineKeyboardMarkup));
     }

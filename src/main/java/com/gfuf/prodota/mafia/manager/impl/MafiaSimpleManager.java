@@ -50,7 +50,7 @@ public class MafiaSimpleManager implements MafiaManager
             SectionContent sectionContent = sectionParser.parse(page);
             result = searchLastGameTopic(sectionContent);
             uri = sectionContent.next();
-        } while (result.isEmpty() && uri.isPresent());
+        } while (!result.isPresent() && uri.isPresent());
 
         return result;
     }

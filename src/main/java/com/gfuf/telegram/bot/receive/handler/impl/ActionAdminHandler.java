@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ActionAdminHandler implements UpdateHandler
@@ -50,7 +51,7 @@ public class ActionAdminHandler implements UpdateHandler
                         .from(customer)
                         .setState(adminAction.getNextState())
                         .build());
-                return List.of(MessageUtils.createMessageTemplate(customer)
+                return Arrays.asList(MessageUtils.createMessageTemplate(customer)
                         .setText(adminAction.getMessageText())
                         .setReplyMarkup(createCancelKey()));
             }
@@ -72,7 +73,7 @@ public class ActionAdminHandler implements UpdateHandler
                 MessageUtils.createOneButtonRow(OtherAction.CANCEL);
 
 
-        inlineKeyboardMarkup.setKeyboard(List.of(inlineKeyboardButtonsRowOne));
+        inlineKeyboardMarkup.setKeyboard(Arrays.asList(inlineKeyboardButtonsRowOne));
         return inlineKeyboardMarkup;
     }
 
