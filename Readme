@@ -1,5 +1,4 @@
-mvn package spring-boot:repackage
+Параметры запуска
 
-
-
-java -jar -Dspring.config.location=/home/pasha/IdeaProjects/prodota_mafia_parser/config/config.properties,/home/pasha/IdeaProjects/prodota_mafia_parser/config/security/config.properties -Dlogging.config=/home/pasha/IdeaProjects/prodota_mafia_parser/config/logback.xml  prodota_mafia_parser-1.0-SNAPSHOT.jar
+-Dspring.config.location=${config_path}
+-Dlogging.config=${logback_config_path}
