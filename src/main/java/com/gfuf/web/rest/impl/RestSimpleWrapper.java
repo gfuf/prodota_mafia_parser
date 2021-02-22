@@ -3,6 +3,7 @@ package com.gfuf.web.rest.impl;
 import com.gfuf.web.response.ResponseDecorator;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -23,7 +24,13 @@ public class RestSimpleWrapper implements RestWrapper
 
     private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36";
 
-    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static final int TIMEOUT = 30 * 1000; // 30 seconds
+
+    private final CloseableHttpClient httpClient = HttpClients.custom()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                    .setConnectTimeout(TIMEOUT)
+                    .setConnectionRequestTimeout(TIMEOUT)
+                    .setSocketTimeout(TIMEOUT).build()).build();
 
     @Override
     public ResponseDecorator<String> doGet(URI uri)
